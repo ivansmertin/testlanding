@@ -23,28 +23,69 @@
                 <img src="images/logo.svg" alt="Логотип Ивана Смертина">
             </a>
 
-            <button class="burger-btn" type="button" aria-label="Toggle menu" aria-expanded="false">
+            <button
+                class="burger-btn"
+                type="button"
+                aria-label="Открыть меню"
+                aria-expanded="false"
+                aria-controls="site-menu"
+            >
+                <span></span>
+                <span></span>
                 <span></span>
             </button>
 
-            <div class="main-nav-wrap">
+            <div class="main-nav-wrap" id="site-menu">
                 <nav class="main-nav" aria-label="Основная навигация">
                     <a href="#services" class="nav-link">Услуги</a>
                     <a href="#about" class="nav-link">Обо мне</a>
                     <a href="#value" class="nav-link">Что вы получите</a>
                     <a href="#faq" class="nav-link">FAQ</a>
                 </nav>
+
+                <div class="mobile-menu-meta">
+                    <a href="tel:+79217657711" class="mobile-phone">+7 921 765 77 11</a>
+
+                    <div class="mobile-socials" aria-label="Социальные сети">
+                        <a href="#" class="social-icon social-icon--vk" aria-label="ВКонтакте">
+                            <span aria-hidden="true">VK</span>
+                        </a>
+
+                        <a
+                            href="https://t.me/ivansmertin"
+                            class="social-icon social-icon--tg"
+                            aria-label="Telegram"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M21 4L10.5 14.5"></path>
+                                <path d="M21 4L14.5 20L10.5 14.5L4 10.5L21 4Z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="contacts">
                 <a href="tel:+79217657711" class="phone">+7 921 765 77 11</a>
 
                 <div class="socials" aria-label="Социальные сети">
-                    <a href="#" class="social-icon" aria-label="ВКонтакте">
-                        <img src="images/vk.svg" alt="Иконка ВКонтакте">
+                    <a href="#" class="social-icon social-icon--vk" aria-label="ВКонтакте">
+                        <span aria-hidden="true">VK</span>
                     </a>
-                    <a href="https://t.me/ivansmertin" class="social-icon" aria-label="Telegram" target="_blank" rel="noopener">
-                        <img src="images/tg.svg" alt="Иконка Telegram">
+
+                    <a
+                        href="https://t.me/ivansmertin"
+                        class="social-icon social-icon--tg"
+                        aria-label="Telegram"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M21 4L10.5 14.5"></path>
+                            <path d="M21 4L14.5 20L10.5 14.5L4 10.5L21 4Z"></path>
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -52,16 +93,73 @@
     </header>
 
     <main>
-        <section class="hero-section reveal" aria-labelledby="hero-title">
+        <section class="hero-section reveal" id="services" aria-labelledby="hero-title">
             <div class="container">
                 <div class="hero-card surface-glow">
-                    <div class="hero-content">
-                        <span class="hero-badge">Сайты под ключ</span>
-                        <h1 class="hero-title" id="hero-title">Создаю сайты,<br>которые приводят клиентов</h1>
-                        <p class="hero-subtitle">Проектирую, рисую и запускаю современные лендинги и корпоративные сайты. Чистый дизайн, продуманная структура и внимание к бизнес-задачам.</p>
-                        <div class="hero-actions">
-                            <a href="https://t.me/ivansmertin" class="btn btn--primary" target="_blank" rel="noopener">Обсудить проект</a>
-                            <a href="#about" class="btn btn--outline">Узнать больше</a>
+                    <div class="hero-grid">
+                        <div class="hero-content">
+                            <span class="hero-badge">Дизайн · UI/UX · Frontend</span>
+
+                            <h1 class="hero-title" id="hero-title">
+                                Создаю сайты,<br>которые приводят клиентов
+                            </h1>
+
+                            <p class="hero-subtitle">
+                                Проектирую, рисую и запускаю современные лендинги и корпоративные сайты.
+                                Чистый дизайн, сильная структура, удобная адаптивность и внимание
+                                к бизнес-задачам с первого экрана.
+                            </p>
+
+                            <div class="hero-points" aria-label="Ключевые преимущества">
+                                <span class="hero-point">Лендинги</span>
+                                <span class="hero-point">Корпоративные сайты</span>
+                                <span class="hero-point">Чистая верстка</span>
+                            </div>
+
+                            <div class="hero-actions">
+                                <a
+                                    href="https://t.me/ivansmertin"
+                                    class="btn btn--primary"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    Обсудить проект
+                                </a>
+                                <a href="#about" class="btn btn--outline">Узнать больше</a>
+                            </div>
+                        </div>
+
+                        <div class="hero-visual" aria-hidden="true">
+                            <div class="hero-code-card">
+                                <div class="hero-code-top">
+                                    <span class="code-dot"></span>
+                                    <span class="code-dot"></span>
+                                    <span class="code-dot"></span>
+                                    <span class="hero-code-label">build / ui / launch</span>
+                                </div>
+
+                                <div class="hero-code-lines">
+                                    <span class="code-line code-line--xl"></span>
+                                    <span class="code-line code-line--lg"></span>
+                                    <span class="code-line code-line--accent"></span>
+                                    <span class="code-line code-line--md"></span>
+                                    <span class="code-line code-line--sm"></span>
+                                </div>
+                            </div>
+
+                            <div class="hero-stack">
+                                <article class="hero-mini-card">
+                                    <span class="hero-mini-label">Подход</span>
+                                    <strong>UI/UX + frontend</strong>
+                                    <p>Не просто картинка, а рабочая страница под задачу.</p>
+                                </article>
+
+                                <article class="hero-mini-card hero-mini-card--accent">
+                                    <span class="hero-mini-label">Фокус</span>
+                                    <strong>Скорость + доверие</strong>
+                                    <p>Чистая подача, внятная структура, уверенный первый экран.</p>
+                                </article>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,7 +189,7 @@
                         </div>
                     </article>
 
-                    <div class="stats-grid" id="services" aria-label="Ключевые принципы работы">
+                    <div class="stats-grid" aria-label="Ключевые принципы работы">
                         <article class="stat-card stat-card--accent surface-glow">
                             <div class="stat-number text-on-accent">
                                 <span class="counter" data-target="3">0</span>
@@ -107,14 +205,14 @@
 
                         <article class="stat-card stat-card--accent stat-wide wave-bg surface-glow floating-accent">
                             <div class="stat-number text-on-accent">
-                                <span class="counter" data-target="1">0</span>
+                                <span class="counter" data-target="1">1</span>
                             </div>
                             <p class="stat-desc text-on-accent">
                                 человек ведет проект<br>от идеи до публикации
                             </p>
                         </article>
 
-                        <article class="stat-card stat-card--quote stat-wide surface-glow">
+                        <article class="stat-card stat-card--quote surface-glow stat-wide">
                             <img src="images/heart-icon.svg" alt="Иконка сердца" class="quote-icon">
                             <p class="quote-text">
                                 Моя задача — не просто сделать красивый сайт, а собрать
@@ -140,14 +238,14 @@
 
                     <div class="slider-controls" aria-label="Управление каруселью">
                         <button class="slider-btn prev-btn" type="button" aria-label="Прокрутить карточки назад">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M15 18l-6-6 6-6"/>
+                            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M15 18l-6-6 6-6"></path>
                             </svg>
                         </button>
 
                         <button class="slider-btn next-btn" type="button" aria-label="Прокрутить карточки вперед">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M9 18l6-6-6-6"/>
+                            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M9 18l6-6-6-6"></path>
                             </svg>
                         </button>
                     </div>
@@ -294,9 +392,19 @@
 
                 <div class="cta-bottom reveal">
                     <h3 class="cta-bottom-title">Готовы обсудить вашу задачу?</h3>
-                    <p class="cta-bottom-text">Напишите мне в Telegram или позвоните. Я на связи, проконсультирую бесплатно и сориентирую по срокам.</p>
+                    <p class="cta-bottom-text">
+                        Напишите мне в Telegram или позвоните. Я на связи,
+                        проконсультирую бесплатно и сориентирую по срокам.
+                    </p>
                     <div class="cta-bottom-actions">
-                        <a href="https://t.me/ivansmertin" class="btn btn--primary" target="_blank" rel="noopener">Написать в Telegram</a>
+                        <a
+                            href="https://t.me/ivansmertin"
+                            class="btn btn--primary"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Написать в Telegram
+                        </a>
                         <a href="tel:+79217657711" class="btn btn--outline">Позвонить</a>
                     </div>
                 </div>
@@ -311,7 +419,11 @@
                     <a href="#top" class="footer-logo" aria-label="На главную">
                         <img src="images/logo.svg" alt="Логотип">
                     </a>
-                    <a href="mailto:hello@ivansmertin.ru" class="footer-link footer-contact">hello@ivansmertin.ru</a>
+
+                    <a href="mailto:hello@ivansmertin.ru" class="footer-link footer-contact">
+                        hello@ivansmertin.ru
+                    </a>
+
                     <div class="footer-legal-links">
                         <a href="#" class="footer-link footer-link--muted">Политика конфиденциальности</a>
                         <a href="#" class="footer-link footer-link--muted">Договор-оферта</a>
@@ -326,13 +438,24 @@
 
                 <div class="footer-column footer-column--social">
                     <div class="footer-socials">
-                        <a href="#" class="footer-social" aria-label="ВКонтакте">
-                            <img src="images/vk.svg" alt="ВКонтакте">
+                        <a href="#" class="footer-social social-icon--vk" aria-label="ВКонтакте">
+                            <span aria-hidden="true">VK</span>
                         </a>
-                        <a href="https://t.me/ivansmertin" class="footer-social" aria-label="Telegram" target="_blank" rel="noopener">
-                            <img src="images/tg.svg" alt="Telegram">
+
+                        <a
+                            href="https://t.me/ivansmertin"
+                            class="footer-social social-icon--tg"
+                            aria-label="Telegram"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M21 4L10.5 14.5"></path>
+                                <path d="M21 4L14.5 20L10.5 14.5L4 10.5L21 4Z"></path>
+                            </svg>
                         </a>
                     </div>
+
                     <div class="footer-meta">
                         <p class="footer-copy">© Иван Смертин, 2026</p>
                         <p class="footer-rights">Все права защищены</p>
@@ -345,196 +468,218 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const motionReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-            const isCoarsePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+            const desktopMedia = window.matchMedia("(min-width: 769px)");
+
+            const header = document.querySelector(".header");
+            const burgerButton = document.querySelector(".burger-btn");
+            const navWrap = document.querySelector(".main-nav-wrap");
+            const nav = document.querySelector(".main-nav");
+            const navLinks = Array.from(nav.querySelectorAll(".nav-link"));
+            const carouselTrack = document.getElementById("benefitsCarousel");
+            const prevBtn = document.querySelector(".prev-btn");
+            const nextBtn = document.querySelector(".next-btn");
+            const progressFill = document.querySelector(".carousel-progress-fill");
+
+            let navHighlight = null;
+            let currentNavLink = navLinks[0] || null;
+            let hoverNavLink = null;
 
             const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
-            // --- Точная синхронизация плашки ---
-            const initNavHighlight = () => {
-                const nav = document.querySelector(".main-nav");
-                if (!nav) return null;
-
-                const links = Array.from(nav.querySelectorAll(".nav-link"));
-                if (!links.length) return null;
-
-                let currentActiveLink =
-                    nav.querySelector(".nav-link[aria-current='page']") ||
-                    nav.querySelector(".nav-link.is-pill-active") ||
-                    links[0];
-
-                const updateActiveState = (targetLink) => {
-                    links.forEach((link) => {
-                        const isCurrent = link === targetLink;
-                        link.setAttribute("aria-current", isCurrent ? "page" : "false");
-                        link.classList.toggle("is-pill-active", isCurrent);
-                    });
-                };
-
-                if (isCoarsePointer) {
-                    const setCurrentActiveLink = (targetLink) => {
-                        if (!targetLink) return;
-                        currentActiveLink = targetLink;
-                        updateActiveState(targetLink);
-                    };
-                    setCurrentActiveLink(currentActiveLink);
-                    return { setCurrentActiveLink };
-                }
-
-                const highlight = document.createElement("span");
-                highlight.className = "nav-highlight";
-                nav.prepend(highlight);
-
-                const moveHighlight = (targetLink, instant = false) => {
-                    if (!targetLink || window.innerWidth <= 768) return;
-
-                    if (instant || motionReduced) {
-                        highlight.classList.add("nav-highlight--no-transition");
-                    } else {
-                        highlight.classList.remove("nav-highlight--no-transition");
-                    }
-
-                    // Используем сверхточные координаты относительно самого контейнера .main-nav
-                    const navRect = nav.getBoundingClientRect();
-                    const linkRect = targetLink.getBoundingClientRect();
-
-                    const x = linkRect.left - navRect.left;
-                    const y = linkRect.top - navRect.top;
-                    const w = linkRect.width;
-                    const h = linkRect.height;
-
-                    nav.style.setProperty("--pill-x", `${x}px`);
-                    nav.style.setProperty("--pill-y", `${y}px`);
-                    nav.style.setProperty("--pill-w", `${w}px`);
-                    nav.style.setProperty("--pill-h", `${h}px`);
-
-                    if (instant || motionReduced) {
-                        void highlight.offsetWidth; // Принудительный ререндер убирает скачок
-                        highlight.classList.remove("nav-highlight--no-transition");
-                    }
-                };
-
-                const setCurrentActiveLink = (targetLink, instant = false) => {
-                    if (!targetLink || targetLink === currentActiveLink) return;
-                    currentActiveLink = targetLink;
-                    updateActiveState(targetLink);
-                    moveHighlight(targetLink, instant);
-                };
-
-                updateActiveState(currentActiveLink);
-                
-                // Ждем загрузки шрифтов перед первоначальной расстановкой плашки
-                document.fonts.ready.then(() => {
-                    moveHighlight(currentActiveLink, true);
-                    nav.classList.add("nav-ready");
-                });
-
-                links.forEach((link) => {
-                    link.addEventListener("mouseenter", () => moveHighlight(link));
-                    link.addEventListener("focus", () => moveHighlight(link));
-                });
-
-                nav.addEventListener("mouseleave", () => moveHighlight(currentActiveLink));
-                nav.addEventListener("focusout", (event) => {
-                    if (!nav.contains(event.relatedTarget)) {
-                        moveHighlight(currentActiveLink);
-                    }
-                });
-
-                const refresh = () => moveHighlight(currentActiveLink, true);
-                window.addEventListener("resize", refresh);
-
-                return { setCurrentActiveLink, moveHighlight };
+            const setHeaderOffset = () => {
+                const offset = (header?.offsetHeight || 80) + 12;
+                document.documentElement.style.setProperty("--header-offset", `${offset}px`);
             };
 
-            const initMobileMenu = () => {
-                const burgerButton = document.querySelector(".burger-btn");
-                const navWrap = document.querySelector(".main-nav-wrap");
-                const nav = document.querySelector(".main-nav");
+            const closeMenu = () => {
+                if (!burgerButton || !navWrap) return;
+                burgerButton.classList.remove("is-active");
+                burgerButton.setAttribute("aria-expanded", "false");
+                navWrap.classList.remove("is-open");
+                document.body.classList.remove("menu-open");
+            };
 
-                if (!burgerButton || !navWrap || !nav) return;
+            const openMenu = () => {
+                if (!burgerButton || !navWrap) return;
+                burgerButton.classList.add("is-active");
+                burgerButton.setAttribute("aria-expanded", "true");
+                navWrap.classList.add("is-open");
+                document.body.classList.add("menu-open");
+            };
 
-                const closeMenu = () => {
-                    navWrap.classList.remove("is-open");
-                    nav.classList.remove("is-open");
-                    burgerButton.classList.remove("is-active");
-                    burgerButton.setAttribute("aria-expanded", "false");
-                };
+            const toggleMenu = () => {
+                if (navWrap.classList.contains("is-open")) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            };
 
-                const toggleMenu = () => {
-                    const isOpen = navWrap.classList.toggle("is-open");
-                    nav.classList.toggle("is-open", isOpen);
-                    burgerButton.classList.toggle("is-active", isOpen);
-                    burgerButton.setAttribute("aria-expanded", String(isOpen));
-                };
+            const updateNavClasses = (currentLink, highlightedLink = currentLink) => {
+                navLinks.forEach((link) => {
+                    const isCurrent = link === currentLink;
+                    const isHighlighted = link === highlightedLink;
 
-                burgerButton.addEventListener("click", toggleMenu);
+                    link.classList.toggle("is-current", isCurrent);
+                    link.classList.toggle("is-highlighted", isHighlighted);
+                    link.setAttribute("aria-current", isCurrent ? "page" : "false");
+                });
+            };
 
-                nav.querySelectorAll(".nav-link").forEach((link) => {
-                    link.addEventListener("click", closeMenu);
+            const ensureNavHighlight = () => {
+                if (!desktopMedia.matches) return null;
+                if (!navHighlight) {
+                    navHighlight = document.createElement("span");
+                    navHighlight.className = "nav-highlight";
+                    nav.prepend(navHighlight);
+                }
+                nav.classList.add("has-highlight");
+                return navHighlight;
+            };
+
+            const moveNavHighlight = (targetLink, instant = false) => {
+                if (!targetLink) return;
+
+                if (!desktopMedia.matches) {
+                    nav.classList.remove("has-highlight");
+                    updateNavClasses(currentNavLink, currentNavLink);
+                    return;
+                }
+
+                const pill = ensureNavHighlight();
+                if (!pill) return;
+
+                if (instant || motionReduced) {
+                    pill.classList.add("nav-highlight--no-transition");
+                } else {
+                    pill.classList.remove("nav-highlight--no-transition");
+                }
+
+                const navRect = nav.getBoundingClientRect();
+                const linkRect = targetLink.getBoundingClientRect();
+
+                nav.style.setProperty("--pill-x", `${linkRect.left - navRect.left}px`);
+                nav.style.setProperty("--pill-y", `${linkRect.top - navRect.top}px`);
+                nav.style.setProperty("--pill-w", `${linkRect.width}px`);
+                nav.style.setProperty("--pill-h", `${linkRect.height}px`);
+
+                updateNavClasses(currentNavLink, targetLink);
+
+                if (instant || motionReduced) {
+                    requestAnimationFrame(() => {
+                        pill.classList.remove("nav-highlight--no-transition");
+                    });
+                }
+            };
+
+            const setCurrentNavLink = (link, instant = false) => {
+                if (!link) return;
+                currentNavLink = link;
+                if (!hoverNavLink) {
+                    moveNavHighlight(link, instant);
+                } else {
+                    updateNavClasses(currentNavLink, hoverNavLink);
+                }
+            };
+
+            const initNav = () => {
+                if (!navLinks.length) return;
+
+                burgerButton?.addEventListener("click", toggleMenu);
+
+                navLinks.forEach((link) => {
+                    link.addEventListener("mouseenter", () => {
+                        if (!desktopMedia.matches) return;
+                        hoverNavLink = link;
+                        moveNavHighlight(link);
+                    });
+
+                    link.addEventListener("focus", () => {
+                        if (!desktopMedia.matches) return;
+                        hoverNavLink = link;
+                        moveNavHighlight(link);
+                    });
+
+                    link.addEventListener("click", () => {
+                        setCurrentNavLink(link, true);
+                        closeMenu();
+                    });
+                });
+
+                nav.addEventListener("mouseleave", () => {
+                    hoverNavLink = null;
+                    moveNavHighlight(currentNavLink);
+                });
+
+                nav.addEventListener("focusout", (event) => {
+                    if (!nav.contains(event.relatedTarget)) {
+                        hoverNavLink = null;
+                        moveNavHighlight(currentNavLink);
+                    }
+                });
+
+                const ready = document.fonts?.ready || Promise.resolve();
+                ready.then(() => {
+                    setCurrentNavLink(currentNavLink, true);
                 });
 
                 window.addEventListener("resize", () => {
-                    if (window.innerWidth > 768) {
+                    setHeaderOffset();
+                    if (desktopMedia.matches) {
                         closeMenu();
                     }
+                    moveNavHighlight(currentNavLink, true);
+                    syncCarouselProgress();
+                    syncOpenFaqHeight();
                 });
             };
 
-            const initScrollSpy = (navHighlightApi) => {
-                const sectionIds = ["services", "about", "value", "faq"];
-                const sections = sectionIds
-                    .map((id) => document.getElementById(id))
-                    .filter(Boolean);
-
-                if (!sections.length || !navHighlightApi?.setCurrentActiveLink) return;
-
-                const sectionById = new Map(sections.map((section) => [section.id, section]));
-                const linkById = new Map(
-                    Array.from(document.querySelectorAll(".main-nav .nav-link"))
-                        .map((link) => [link.getAttribute("href")?.slice(1), link])
-                        .filter(([id, link]) => id && link && sectionById.has(id))
+            const initScrollSpy = () => {
+                const sectionMap = new Map(
+                    navLinks
+                        .map((link) => {
+                            const id = link.getAttribute("href")?.replace("#", "");
+                            const section = id ? document.getElementById(id) : null;
+                            return [section, link];
+                        })
+                        .filter(([section]) => section)
                 );
 
-                if (!linkById.size) return;
+                const sections = Array.from(sectionMap.keys());
+                if (!sections.length) return;
 
-                const visibility = new Map();
-                let activeSectionId = null;
+                const visible = new Map();
 
-                const updateActive = () => {
-                    if (!visibility.size) return;
+                const updateActiveSection = () => {
+                    if (!visible.size) return;
 
-                    const best = Array.from(visibility.entries())
-                        .sort((a, b) => {
-                            const ratioDiff = b[1].ratio - a[1].ratio;
-                            if (Math.abs(ratioDiff) > 0.01) return ratioDiff;
-                            return a[1].top - b[1].top;
-                        })[0];
+                    const best = Array.from(visible.entries()).sort((a, b) => {
+                        const ratioDelta = b[1].ratio - a[1].ratio;
+                        if (Math.abs(ratioDelta) > 0.02) return ratioDelta;
+                        return a[1].top - b[1].top;
+                    })[0];
 
-                    if (!best || best[0] === activeSectionId) return;
-
-                    activeSectionId = best[0];
-                    // Отключаем скачок при скролле, передавая instant = false
-                    navHighlightApi.setCurrentActiveLink(linkById.get(activeSectionId), false);
+                    if (!best) return;
+                    const link = sectionMap.get(best[0]);
+                    if (link) setCurrentNavLink(link);
                 };
 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach((entry) => {
-                        if (!sectionById.has(entry.target.id)) return;
-
                         if (entry.isIntersecting) {
-                            visibility.set(entry.target.id, {
+                            visible.set(entry.target, {
                                 ratio: entry.intersectionRatio,
-                                top: Math.max(entry.boundingClientRect.top, 0),
+                                top: Math.max(entry.boundingClientRect.top, 0)
                             });
                         } else {
-                            visibility.delete(entry.target.id);
+                            visible.delete(entry.target);
                         }
                     });
 
-                    updateActive();
+                    updateActiveSection();
                 }, {
-                    threshold: [0.2, 0.35, 0.5, 0.65],
-                    rootMargin: "-25% 0px -40% 0px",
+                    rootMargin: "-18% 0px -48% 0px",
+                    threshold: [0.2, 0.35, 0.5, 0.65]
                 });
 
                 sections.forEach((section) => observer.observe(section));
@@ -568,8 +713,9 @@
                                 counter.textContent = target;
                                 return;
                             }
-                            const duration = 1800;
+
                             let startTime = null;
+                            const duration = 1800;
 
                             const update = (currentTime) => {
                                 if (!startTime) startTime = currentTime;
@@ -593,45 +739,58 @@
                 revealTargets.forEach((el) => observer.observe(el));
             };
 
+            const getCarouselScrollAmount = () => {
+                const card = carouselTrack?.querySelector(".carousel-card");
+                if (!card) return 0;
+                const styles = window.getComputedStyle(carouselTrack);
+                const gap = parseFloat(styles.gap) || 20;
+                return card.getBoundingClientRect().width + gap;
+            };
+
+            const syncCarouselProgress = () => {
+                if (!carouselTrack || !progressFill) return;
+
+                const total = carouselTrack.scrollWidth;
+                const visible = carouselTrack.clientWidth;
+                const maxScroll = total - visible;
+
+                const widthPercent = total > 0 ? Math.max((visible / total) * 100, 16) : 100;
+                const leftPercent = maxScroll > 0
+                    ? ((100 - widthPercent) * carouselTrack.scrollLeft) / maxScroll
+                    : 0;
+
+                progressFill.style.width = `${widthPercent}%`;
+                progressFill.style.left = `${leftPercent}%`;
+            };
+
             const initCarousel = () => {
-                const track = document.getElementById("benefitsCarousel");
-                const prevBtn = document.querySelector(".prev-btn");
-                const nextBtn = document.querySelector(".next-btn");
-                const progressFill = document.querySelector(".carousel-progress-fill");
-
-                if (!track || !prevBtn || !nextBtn) return;
-
-                const getScrollAmount = () => {
-                    const card = track.querySelector(".carousel-card");
-                    if (!card) return 0;
-
-                    const trackStyle = window.getComputedStyle(track);
-                    const gap =
-                        parseFloat(trackStyle.gap) ||
-                        parseFloat(trackStyle.columnGap) ||
-                        20;
-
-                    return card.getBoundingClientRect().width + gap;
-                };
+                if (!carouselTrack || !prevBtn || !nextBtn) return;
 
                 nextBtn.addEventListener("click", () => {
-                    track.scrollBy({ left: getScrollAmount(), behavior: "smooth" });
+                    carouselTrack.scrollBy({
+                        left: getCarouselScrollAmount(),
+                        behavior: "smooth"
+                    });
                 });
 
                 prevBtn.addEventListener("click", () => {
-                    track.scrollBy({ left: -getScrollAmount(), behavior: "smooth" });
+                    carouselTrack.scrollBy({
+                        left: -getCarouselScrollAmount(),
+                        behavior: "smooth"
+                    });
                 });
 
-                const syncProgress = () => {
-                    if (!progressFill) return;
-                    const maxScroll = track.scrollWidth - track.clientWidth;
-                    const progress = maxScroll > 0 ? track.scrollLeft / maxScroll : 0;
-                    progressFill.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
-                };
+                carouselTrack.addEventListener("scroll", syncCarouselProgress, { passive: true });
+                syncCarouselProgress();
+            };
 
-                track.addEventListener("scroll", syncProgress, { passive: true });
-                window.addEventListener("resize", syncProgress);
-                syncProgress();
+            const syncOpenFaqHeight = () => {
+                const openItem = document.querySelector(".faq-item.is-open");
+                if (!openItem) return;
+                const panel = openItem.querySelector(".faq-answer");
+                if (panel) {
+                    panel.style.height = `${panel.scrollHeight}px`;
+                }
             };
 
             const initFaq = () => {
@@ -658,29 +817,21 @@
                     const button = item.querySelector(".faq-question");
 
                     button.addEventListener("click", () => {
-                        const isOpen = item.classList.contains("is-open");
+                        const alreadyOpen = item.classList.contains("is-open");
 
                         items.forEach((currentItem) => applyState(currentItem, false));
 
-                        if (!isOpen) {
+                        if (!alreadyOpen) {
                             applyState(item, true);
                         }
                     });
                 });
-
-                window.addEventListener("resize", () => {
-                    const opened = items.find((item) => item.classList.contains("is-open"));
-                    if (opened) {
-                        const panel = opened.querySelector(".faq-answer");
-                        panel.style.height = `${panel.scrollHeight}px`;
-                    }
-                });
             };
 
-            const navHighlightApi = initNavHighlight();
-            initMobileMenu();
+            setHeaderOffset();
+            initNav();
             initRevealAnimations();
-            initScrollSpy(navHighlightApi);
+            initScrollSpy();
             initCarousel();
             initFaq();
         });
