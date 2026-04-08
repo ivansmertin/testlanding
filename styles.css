@@ -197,6 +197,7 @@ body {
     line-height: 1;
     margin-bottom: 5px;
     font-family: 'Montserrat', sans-serif;
+    font-variant-numeric: tabular-nums; /* МАГИЯ: Убирает дрожание цифр при анимации */
 }
 
 .stat-text-large {
