@@ -86,7 +86,7 @@ body {
 
 .nav-link.is-pill-active {
     color: #ffffff !important;
-    transition: color 0.1s ease 0.15s; /* Легкая задержка, чтобы плашка успела доехать */
+    transition: color 0.1s ease 0.15s;
 }
 
 .nav-highlight {
@@ -99,7 +99,6 @@ body {
     pointer-events: none;
     transition: all var(--motion-duration-base) var(--motion-ease);
     box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
-    /* Размеры и позиция задаются через CSS-переменные из JS */
     transform: translate(var(--pill-x, 0), var(--pill-y, 0));
     width: var(--pill-w, 0);
     height: var(--pill-h, 0);
@@ -415,7 +414,10 @@ body {
 .footer-phone { font-size: 24px; font-weight: 800; color: #fff; display: block; margin-bottom: 12px;}
 .footer-note { font-size: 15px; margin: 0 0 8px 0; color: #cbd5e1;}
 .footer-note--muted { color: #64748b; font-size: 14px;}
+
+/* ДОБАВЛЕНО: Раздвинули иконки в подвале */
 .footer-column--social { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end;}
+.footer-socials { display: flex; gap: 12px; margin-bottom: 16px; } 
 .footer-meta { text-align: right;}
 .footer-copy { font-size: 16px; font-weight: 700; margin: 0 0 4px 0;}
 .footer-rights { font-size: 14px; color: #64748b; margin: 0;}
