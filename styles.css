@@ -615,9 +615,8 @@ section[id] {
     color: inherit;
 }
 
-/* ФИКС ИСПРАВЛЕН: Принудительный белый текст на бирюзовом фоне */
 .hero-mini-card--accent strong {
-    color: #ffffff !important;
+    color: #ffffff;
 }
 
 .hero-mini-card p {
@@ -627,9 +626,8 @@ section[id] {
     color: var(--text-secondary);
 }
 
-/* ФИКС ИСПРАВЛЕН: Принудительный белый текст на бирюзовом фоне */
 .hero-mini-card--accent p {
-    color: rgba(255, 255, 255, 0.95) !important;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 /* ---------------------------------
@@ -749,12 +747,10 @@ section[id] {
     color: #ffffff;
 }
 
-/* ФИКС ИСПРАВЛЕН: Принудительный белый текст для бирюзовой карточки */
 .stat-card--accent .text-on-accent,
 .stat-card--accent .stat-desc {
-    color: #ffffff !important; 
+    color: #ffffff;
 }
-
 
 .stat-card--quote {
     flex-direction: row;
@@ -776,11 +772,28 @@ section[id] {
     color: var(--text-primary);
 }
 
+/* ВОТ ЗДЕСЬ ГЛАВНЫЙ ФИКС */
 .wave-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+.wave-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     background-image: url("images/wave.svg");
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: 42%;
+    opacity: 0.28;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.wave-bg > * {
+    position: relative;
+    z-index: 1;
 }
 
 .floating-accent {
