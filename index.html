@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Иван Смертин — дизайн и создание сайтов</title>
+    <meta
+        name="description"
+        content="Иван Смертин — дизайн и создание современных лендингов и сайтов: структура, визуальная подача, адаптивная верстка и помощь с запуском."
+    >
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 </head>
 <body>
     <header class="header" id="top">
@@ -17,14 +24,15 @@
             </a>
 
             <nav class="main-nav" aria-label="Основная навигация">
-                <a href="#services" class="nav-link active">Услуги</a>
+                <a href="#services" class="nav-link active" aria-current="page">Услуги</a>
                 <a href="#about" class="nav-link">Обо мне</a>
-                <a href="#value" class="nav-link">Что получите</a>
+                <a href="#value" class="nav-link">Что вы получите</a>
                 <a href="#faq" class="nav-link">FAQ</a>
             </nav>
 
             <div class="contacts" id="contacts">
                 <a href="tel:+79217657711" class="phone">+7 921 765 77 11</a>
+
                 <div class="socials" aria-label="Социальные сети">
                     <a href="#" class="social-icon" aria-label="ВКонтакте">
                         <img src="images/vk.svg" alt="Иконка ВКонтакте">
@@ -38,9 +46,9 @@
     </header>
 
     <main>
-        <section class="author-section" id="about">
+        <section class="author-section" id="about" aria-labelledby="about-title">
             <div class="container">
-                <h2 class="section-title">Обо мне</h2>
+                <h2 class="section-title" id="about-title">Обо мне</h2>
 
                 <div class="author-wrapper">
                     <article class="author-main-card">
@@ -49,6 +57,7 @@
                             alt="Портрет Ивана Смертина"
                             class="author-photo"
                             loading="eager"
+                            decoding="async"
                         >
                         <div class="author-info">
                             <h3 class="author-name">Иван Смертин</h3>
@@ -86,7 +95,7 @@
                         <article class="stat-card stat-card--quote stat-wide">
                             <img src="images/heart-icon.svg" alt="Иконка сердца" class="quote-icon">
                             <p class="quote-text">
-                                Моя задача — не просто сделать “красивый сайт”, а собрать
+                                Моя задача — не просто сделать красивый сайт, а собрать
                                 понятную, аккуратную и убедительную страницу под конкретную
                                 бизнес-задачу.
                             </p>
@@ -96,32 +105,33 @@
             </div>
         </section>
 
-        <section class="benefits-section" id="value">
+        <section class="benefits-section" id="value" aria-labelledby="value-title">
             <div class="container">
                 <div class="benefits-header">
                     <div class="benefits-title-wrapper">
-                        <h2 class="section-title">Что вы получите</h2>
+                        <h2 class="section-title" id="value-title">Что вы получите</h2>
                         <p class="section-subtitle">
                             Сайт, который выглядит современно, собирает доверие и помогает
                             понятнее продавать ваши услуги
                         </p>
                     </div>
 
-                    <div class="slider-controls">
-                        <button class="slider-btn prev-btn" aria-label="Прокрутить карточки назад">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <div class="slider-controls" aria-label="Управление каруселью">
+                        <button class="slider-btn prev-btn" type="button" aria-label="Прокрутить карточки назад">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M15 18l-6-6 6-6"/>
                             </svg>
                         </button>
-                        <button class="slider-btn next-btn" aria-label="Прокрутить карточки вперед">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+
+                        <button class="slider-btn next-btn" type="button" aria-label="Прокрутить карточки вперед">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M9 18l6-6-6-6"/>
                             </svg>
                         </button>
                     </div>
                 </div>
 
-                <div class="carousel-track" id="benefitsCarousel">
+                <div class="carousel-track" id="benefitsCarousel" aria-label="Преимущества работы">
                     <article class="carousel-card">
                         <h3 class="card-title">Продуманный визуальный образ</h3>
                         <p class="card-text">
@@ -175,8 +185,19 @@
                                 <span class="faq-toggle" aria-hidden="true"></span>
                             </button>
                         </h3>
-                        <div class="faq-answer" id="faq-panel-1" role="region" aria-labelledby="faq-button-1" aria-hidden="true">
-                            <p>Я могу сделать лендинг, небольшой сайт, промо-страницу или аккуратно переработать уже существующий сайт. Обычно помогаю с визуальной подачей, структурой блоков, версткой и подготовкой проекта к запуску.</p>
+                        <div
+                            class="faq-answer"
+                            id="faq-panel-1"
+                            role="region"
+                            aria-labelledby="faq-button-1"
+                            aria-hidden="true"
+                        >
+                            <p>
+                                Я могу сделать лендинг, небольшой сайт, промо-страницу или
+                                аккуратно переработать уже существующий сайт. Обычно помогаю
+                                с визуальной подачей, структурой блоков, версткой и подготовкой
+                                проекта к запуску.
+                            </p>
                         </div>
                     </article>
 
@@ -193,8 +214,18 @@
                                 <span class="faq-toggle" aria-hidden="true"></span>
                             </button>
                         </h3>
-                        <div class="faq-answer" id="faq-panel-2" role="region" aria-labelledby="faq-button-2" aria-hidden="true">
-                            <p>И дизайн, и верстку. Могу подключиться только на этапе визуальной концепции, но чаще беру проект целиком: от структуры и внешнего вида до готовой адаптивной страницы.</p>
+                        <div
+                            class="faq-answer"
+                            id="faq-panel-2"
+                            role="region"
+                            aria-labelledby="faq-button-2"
+                            aria-hidden="true"
+                        >
+                            <p>
+                                И дизайн, и верстку. Могу подключиться только на этапе визуальной
+                                концепции, но чаще беру проект целиком: от структуры и внешнего
+                                вида до готовой адаптивной страницы.
+                            </p>
                         </div>
                     </article>
 
@@ -211,8 +242,19 @@
                                 <span class="faq-toggle" aria-hidden="true"></span>
                             </button>
                         </h3>
-                        <div class="faq-answer" id="faq-panel-3" role="region" aria-labelledby="faq-button-3" aria-hidden="false">
-                            <p>Зависит от объема. Небольшой лендинг можно собрать сравнительно быстро, а более детальная работа со структурой, текстами и дополнительными блоками требует больше времени. Точные сроки лучше определять после короткого обсуждения задачи.</p>
+                        <div
+                            class="faq-answer"
+                            id="faq-panel-3"
+                            role="region"
+                            aria-labelledby="faq-button-3"
+                            aria-hidden="false"
+                        >
+                            <p>
+                                Зависит от объема. Небольшой лендинг можно собрать сравнительно
+                                быстро, а более детальная работа со структурой, текстами и
+                                дополнительными блоками требует больше времени. Точные сроки
+                                лучше определять после короткого обсуждения задачи.
+                            </p>
                         </div>
                     </article>
 
@@ -229,8 +271,19 @@
                                 <span class="faq-toggle" aria-hidden="true"></span>
                             </button>
                         </h3>
-                        <div class="faq-answer" id="faq-panel-4" role="region" aria-labelledby="faq-button-4" aria-hidden="true">
-                            <p>Достаточно коротко описать задачу: чем вы занимаетесь, какой сайт нужен, есть ли примеры, тексты, фирменные материалы или референсы. Даже если все пока неструктурировано, я помогу собрать это в понятную основу.</p>
+                        <div
+                            class="faq-answer"
+                            id="faq-panel-4"
+                            role="region"
+                            aria-labelledby="faq-button-4"
+                            aria-hidden="true"
+                        >
+                            <p>
+                                Достаточно коротко описать задачу: чем вы занимаетесь, какой сайт
+                                нужен, есть ли примеры, тексты, фирменные материалы или референсы.
+                                Даже если все пока неструктурировано, я помогу собрать это в
+                                понятную основу.
+                            </p>
                         </div>
                     </article>
 
@@ -247,8 +300,18 @@
                                 <span class="faq-toggle" aria-hidden="true"></span>
                             </button>
                         </h3>
-                        <div class="faq-answer" id="faq-panel-5" role="region" aria-labelledby="faq-button-5" aria-hidden="true">
-                            <p>Да. Необязательно делать все с нуля. Если у вас уже есть страница или набросок, я могу помочь привести это в более аккуратный и современный вид, улучшить структуру и сверстать недостающие части.</p>
+                        <div
+                            class="faq-answer"
+                            id="faq-panel-5"
+                            role="region"
+                            aria-labelledby="faq-button-5"
+                            aria-hidden="true"
+                        >
+                            <p>
+                                Да. Необязательно делать все с нуля. Если у вас уже есть страница
+                                или набросок, я могу помочь привести это в более аккуратный и
+                                современный вид, улучшить структуру и сверстать недостающие части.
+                            </p>
                         </div>
                     </article>
 
@@ -265,8 +328,18 @@
                                 <span class="faq-toggle" aria-hidden="true"></span>
                             </button>
                         </h3>
-                        <div class="faq-answer" id="faq-panel-6" role="region" aria-labelledby="faq-button-6" aria-hidden="true">
-                            <p>Да, при необходимости могу помочь с финальной сборкой, публикацией, базовой технической настройкой, подключением домена, форм и другими простыми этапами запуска.</p>
+                        <div
+                            class="faq-answer"
+                            id="faq-panel-6"
+                            role="region"
+                            aria-labelledby="faq-button-6"
+                            aria-hidden="true"
+                        >
+                            <p>
+                                Да, при необходимости могу помочь с финальной сборкой, публикацией,
+                                базовой технической настройкой, подключением домена, форм и
+                                другими простыми этапами запуска.
+                            </p>
                         </div>
                     </article>
                 </div>
@@ -278,10 +351,14 @@
         <div class="container">
             <div class="footer-card">
                 <div class="footer-column footer-column--brand">
-                    <a href="#top" class="footer-logo" aria-label="На главную">
+                    <a href="#top" class="footer-logo" aria-label="Вернуться к началу страницы">
                         <img src="images/logo.svg" alt="Логотип Ивана Смертина">
                     </a>
-                    <a href="mailto:hello@ivansmertin.ru" class="footer-link footer-contact">hello@ivansmertin.ru</a>
+
+                    <a href="mailto:hello@ivansmertin.ru" class="footer-link footer-contact">
+                        hello@ivansmertin.ru
+                    </a>
+
                     <div class="footer-legal-links" aria-label="Юридическая информация">
                         <a href="#" class="footer-link footer-link--muted">Политика конфиденциальности</a>
                         <a href="#" class="footer-link footer-link--muted">Договор-оферта</a>
@@ -289,7 +366,9 @@
                 </div>
 
                 <div class="footer-column footer-column--contacts">
-                    <a href="tel:+79217657711" class="footer-link footer-phone">+7 921 765 77 11</a>
+                    <a href="tel:+79217657711" class="footer-link footer-phone">
+                        +7 921 765 77 11
+                    </a>
                     <p class="footer-note">Связаться по поводу проекта</p>
                     <p class="footer-note footer-note--muted">Самозанятый / работа по договоренности</p>
                 </div>
@@ -303,54 +382,57 @@
                             <img src="images/tg.svg" alt="Иконка Telegram">
                         </a>
                     </div>
-                    <p class="footer-copy">© Иван Смертин, 2026</p>
-                    <p class="footer-rights">Все права защищены</p>
+
+                    <div class="footer-meta">
+                        <p class="footer-copy">© Иван Смертин, 2026</p>
+                        <p class="footer-rights">Все права защищены</p>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
 
-                        const counters = entry.target.querySelectorAll(".counter");
-                        counters.forEach(counter => {
-                            const target = Number(counter.getAttribute("data-target"));
-                            const duration = 2200;
-                            let startTime = null;
+                    entry.target.classList.add("visible");
 
-                            const easeOutExpo = (t) => (
-                                t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
-                            );
+                    const counters = entry.target.querySelectorAll(".counter");
+                    counters.forEach((counter) => {
+                        const target = Number(counter.getAttribute("data-target"));
+                        const duration = 2200;
+                        let startTime = null;
 
-                            const updateCounter = (currentTime) => {
-                                if (!startTime) startTime = currentTime;
-                                const progress = Math.min((currentTime - startTime) / duration, 1);
-                                counter.textContent = Math.floor(easeOutExpo(progress) * target);
+                        const easeOutExpo = (t) => (
+                            t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
+                        );
 
-                                if (progress < 1) {
-                                    requestAnimationFrame(updateCounter);
-                                } else {
-                                    counter.textContent = target;
-                                }
-                            };
+                        const updateCounter = (currentTime) => {
+                            if (!startTime) startTime = currentTime;
 
-                            requestAnimationFrame(updateCounter);
-                        });
+                            const progress = Math.min((currentTime - startTime) / duration, 1);
+                            counter.textContent = Math.floor(easeOutExpo(progress) * target);
 
-                        observer.unobserve(entry.target);
-                    }
+                            if (progress < 1) {
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.textContent = target;
+                            }
+                        };
+
+                        requestAnimationFrame(updateCounter);
+                    });
+
+                    observer.unobserve(entry.target);
                 });
             }, { threshold: 0.2 });
 
             document
                 .querySelectorAll(".stat-card, .author-main-card")
-                .forEach(el => observer.observe(el));
+                .forEach((element) => observer.observe(element));
 
             const track = document.getElementById("benefitsCarousel");
             const prevBtn = document.querySelector(".prev-btn");
@@ -382,17 +464,30 @@
             const faqItems = document.querySelectorAll(".faq-item");
 
             if (faqItems.length) {
-                const toggleFaqItem = (itemToToggle) => {
+                const syncFaqState = () => {
                     faqItems.forEach((item) => {
                         const button = item.querySelector(".faq-question");
                         const panel = item.querySelector(".faq-answer");
-                        const shouldOpen = item === itemToToggle && !item.classList.contains("is-open");
+                        const isOpen = item.classList.contains("is-open");
 
-                        item.classList.toggle("is-open", shouldOpen);
-                        button.setAttribute("aria-expanded", String(shouldOpen));
-                        panel.setAttribute("aria-hidden", String(!shouldOpen));
+                        button.setAttribute("aria-expanded", String(isOpen));
+                        panel.setAttribute("aria-hidden", String(!isOpen));
                     });
                 };
+
+                const toggleFaqItem = (itemToToggle) => {
+                    faqItems.forEach((item) => {
+                        const isCurrent = item === itemToToggle;
+                        const isAlreadyOpen = item.classList.contains("is-open");
+                        const shouldOpen = isCurrent ? !isAlreadyOpen : false;
+
+                        item.classList.toggle("is-open", shouldOpen);
+                    });
+
+                    syncFaqState();
+                };
+
+                syncFaqState();
 
                 faqItems.forEach((item) => {
                     const button = item.querySelector(".faq-question");
