@@ -85,3 +85,126 @@ body {
 .social-icon:hover {
     opacity: 0.8;
 }
+
+/* --- Секция "Автор курса" --- */
+.author-section {
+    padding: 60px 0;
+    background-color: #FFFFFF;
+}
+
+.section-title {
+    color: #29344A;
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0 0 40px 0;
+}
+
+/* Обертка делит блок на левую и правую часть */
+.author-wrapper {
+    display: flex;
+    gap: 30px;
+}
+
+/* === ЛЕВАЯ КАРТОЧКА === */
+.author-main-card {
+    flex: 1; /* Левая карточка */
+    background-color: #F5F5F5;
+    border-radius: 24px;
+    overflow: hidden; /* Обрезает фото по углам карточки */
+    display: flex;
+    flex-direction: column;
+}
+
+.author-photo {
+    width: 100%;
+    height: auto;
+    background-color: #E8E9EA; /* Серый фон под фото, как в макете */
+}
+
+.author-info {
+    padding: 30px;
+    background-color: #F9FAFB;
+}
+
+.author-name {
+    color: #29344A;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.author-regalia {
+    color: #29344A;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* === ПРАВАЯ СЕТКА ПЛИТОК (CSS GRID) === */
+.stats-grid {
+    flex: 1.2; /* Правая часть чуть шире левой */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Две одинаковые колонки */
+    gap: 20px;
+}
+
+.stat-card {
+    border-radius: 24px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Цвета фонов */
+.bg-green { background-color: #79CBC4; }
+.bg-gray { background-color: #F9FAFB; }
+
+/* Текстовые стили для плиток */
+.stat-number {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.stat-text-large {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.text-white { color: #FFFFFF; }
+.text-coral { color: #E96A53; }
+
+.stat-desc {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #29344A;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Модификаторы для специфичных плиток */
+.stat-wide {
+    grid-column: span 2; /* Растягивает карточку на обе колонки сетки */
+}
+
+.stat-quote {
+    flex-direction: row; /* Иконка и текст стоят в один ряд */
+    align-items: center;
+    gap: 24px;
+}
+
+.quote-icon {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0; /* Запрещаем иконке сжиматься */
+}
+
+.quote-text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #29344A;
+    margin: 0;
+}
