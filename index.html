@@ -26,8 +26,12 @@
             <div class="contacts" id="contacts">
                 <a href="tel:+79217657711" class="phone">+7 921 765 77 11</a>
                 <div class="socials" aria-label="Социальные сети">
-                    <a href="#" class="social-icon" aria-label="ВКонтакте"><img src="images/vk.svg" alt="Иконка ВКонтакте"></a>
-                    <a href="#" class="social-icon" aria-label="Telegram"><img src="images/tg.svg" alt="Иконка Telegram"></a>
+                    <a href="#" class="social-icon" aria-label="ВКонтакте">
+                        <img src="images/vk.svg" alt="Иконка ВКонтакте">
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Telegram">
+                        <img src="images/tg.svg" alt="Иконка Telegram">
+                    </a>
                 </div>
             </div>
         </div>
@@ -37,32 +41,55 @@
         <section class="author-section" id="about">
             <div class="container">
                 <h2 class="section-title">Обо мне</h2>
+
                 <div class="author-wrapper">
                     <article class="author-main-card">
-                        <img src="images/ivan.png" alt="Портрет Ивана Смертина" class="author-photo">
+                        <img
+                            src="images/ivan.png"
+                            alt="Портрет Ивана Смертина"
+                            class="author-photo"
+                            loading="eager"
+                        >
                         <div class="author-info">
                             <h3 class="author-name">Иван Смертин</h3>
-                            <p class="author-regalia">Веб-дизайнер и разработчик. Создаю современные лендинги и сайты, которые выглядят уверенно, работают быстро и помогают бизнесу привлекать клиентов.</p>
+                            <p class="author-regalia">
+                                Веб-дизайнер и разработчик. Создаю современные лендинги и сайты,
+                                которые выглядят аккуратно, работают быстро и помогают бизнесу
+                                вызывать доверие и привлекать клиентов.
+                            </p>
                         </div>
                     </article>
 
                     <div class="stats-grid" id="services" aria-label="Ключевые принципы работы">
-                        <article class="stat-card bg-accent-soft">
-                            <div class="stat-number text-on-accent"><span class="counter" data-target="3">0</span></div>
+                        <article class="stat-card stat-card--accent">
+                            <div class="stat-number text-on-accent">
+                                <span class="counter" data-target="3">0</span>
+                            </div>
                             <div class="stat-text-large text-on-accent">направления</div>
                             <p class="stat-desc text-on-accent">дизайн, верстка, запуск</p>
                         </article>
-                        <article class="stat-card bg-surface-muted">
+
+                        <article class="stat-card stat-card--muted">
                             <p class="stat-title text-accent">Чистый<br>современный</p>
                             <p class="stat-desc">дизайн без визуального шума</p>
                         </article>
-                        <article class="stat-card bg-accent-soft stat-wide wave-bg">
-                            <div class="stat-number text-on-accent"><span class="counter" data-target="1">0</span></div>
-                            <p class="stat-desc text-on-accent">человек ведет проект<br>от идеи до публикации</p>
+
+                        <article class="stat-card stat-card--accent stat-wide wave-bg">
+                            <div class="stat-number text-on-accent">
+                                <span class="counter" data-target="1">0</span>
+                            </div>
+                            <p class="stat-desc text-on-accent">
+                                человек ведет проект<br>от идеи до публикации
+                            </p>
                         </article>
-                        <article class="stat-card bg-surface-muted stat-quote stat-wide">
+
+                        <article class="stat-card stat-card--quote stat-wide">
                             <img src="images/heart-icon.svg" alt="Иконка сердца" class="quote-icon">
-                            <p class="quote-text">Моя задача — не просто “нарисовать сайт”, а собрать понятную, аккуратную и убедительную страницу под конкретную бизнес-задачу.</p>
+                            <p class="quote-text">
+                                Моя задача — не просто сделать “красивый сайт”, а собрать
+                                понятную, аккуратную и убедительную страницу под конкретную
+                                бизнес-задачу.
+                            </p>
                         </article>
                     </div>
                 </div>
@@ -74,14 +101,22 @@
                 <div class="benefits-header">
                     <div class="benefits-title-wrapper">
                         <h2 class="section-title">Что вы получите</h2>
-                        <p class="section-subtitle">Сайт, который выглядит современно, собирает доверие и помогает вам понятнее продавать свои услуги</p>
+                        <p class="section-subtitle">
+                            Сайт, который выглядит современно, собирает доверие и помогает
+                            понятнее продавать ваши услуги
+                        </p>
                     </div>
+
                     <div class="slider-controls">
                         <button class="slider-btn prev-btn" aria-label="Прокрутить карточки назад">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
                         </button>
                         <button class="slider-btn next-btn" aria-label="Прокрутить карточки вперед">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -89,19 +124,34 @@
                 <div class="carousel-track" id="benefitsCarousel">
                     <article class="carousel-card">
                         <h3 class="card-title">Продуманный визуальный образ</h3>
-                        <p class="card-text">Соберу аккуратный и современный интерфейс, который соответствует вашей нише и не выглядит шаблонно.</p>
+                        <p class="card-text">
+                            Соберу аккуратный и современный интерфейс, который соответствует
+                            вашей нише и не выглядит шаблонно.
+                        </p>
                     </article>
+
                     <article class="carousel-card">
                         <h3 class="card-title">Понятную структуру страницы</h3>
-                        <p class="card-text">Помогу выстроить блоки, акценты и логику подачи так, чтобы посетитель быстро понимал, что вы предлагаете.</p>
+                        <p class="card-text">
+                            Помогу выстроить блоки, акценты и логику подачи так, чтобы
+                            посетитель быстро понимал, что именно вы предлагаете.
+                        </p>
                     </article>
+
                     <article class="carousel-card">
                         <h3 class="card-title">Чистую адаптивную верстку</h3>
-                        <p class="card-text">Сайт будет корректно выглядеть на компьютере, планшете и телефоне, без ощущения сырой или случайной сборки.</p>
+                        <p class="card-text">
+                            Сайт будет корректно выглядеть на компьютере, планшете и телефоне
+                            без ощущения сырой или случайной сборки.
+                        </p>
                     </article>
+
                     <article class="carousel-card">
                         <h3 class="card-title">Удобный запуск и доработку</h3>
-                        <p class="card-text">Проект можно будет спокойно развивать дальше: дополнять блоками, подключать формы, домен, аналитику и новые страницы.</p>
+                        <p class="card-text">
+                            Проект можно будет спокойно развивать дальше: подключать формы,
+                            домен, аналитику, новые блоки и дополнительные страницы.
+                        </p>
                     </article>
                 </div>
             </div>
@@ -110,48 +160,70 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Анимация цифр
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        const counters = entry.target.querySelectorAll('.counter');
+                        entry.target.classList.add("visible");
+
+                        const counters = entry.target.querySelectorAll(".counter");
                         counters.forEach(counter => {
-                            const target = +counter.getAttribute('data-target');
-                            const duration = 2500;
+                            const target = Number(counter.getAttribute("data-target"));
+                            const duration = 2200;
                             let startTime = null;
-                            const easeOut = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+
+                            const easeOutExpo = (t) => (
+                                t === 1 ? 1 : 1 - Math.pow(2, -10 * t)
+                            );
+
                             const updateCounter = (currentTime) => {
                                 if (!startTime) startTime = currentTime;
                                 const progress = Math.min((currentTime - startTime) / duration, 1);
-                                counter.innerText = Math.floor(easeOut(progress) * target);
-                                if (progress < 1) requestAnimationFrame(updateCounter);
-                                else counter.innerText = target;
+                                counter.textContent = Math.floor(easeOutExpo(progress) * target);
+
+                                if (progress < 1) {
+                                    requestAnimationFrame(updateCounter);
+                                } else {
+                                    counter.textContent = target;
+                                }
                             };
+
                             requestAnimationFrame(updateCounter);
                         });
+
                         observer.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.2 });
 
-            document.querySelectorAll('.stat-card, .author-main-card').forEach(el => observer.observe(el));
+            document
+                .querySelectorAll(".stat-card, .author-main-card")
+                .forEach(el => observer.observe(el));
 
-            // Карусель
-            const track = document.getElementById('benefitsCarousel');
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
+            const track = document.getElementById("benefitsCarousel");
+            const prevBtn = document.querySelector(".prev-btn");
+            const nextBtn = document.querySelector(".next-btn");
 
             if (track && prevBtn && nextBtn) {
                 const getScrollAmount = () => {
-                    const card = track.querySelector('.carousel-card');
+                    const card = track.querySelector(".carousel-card");
+                    if (!card) return 0;
+
                     const style = window.getComputedStyle(track);
-                    const gap = parseInt(style.columnGap) || 30;
-                    return card ? card.offsetWidth + gap : 0;
+                    const gap =
+                        parseFloat(style.gap) ||
+                        parseFloat(style.columnGap) ||
+                        24;
+
+                    return card.getBoundingClientRect().width + gap;
                 };
 
-                nextBtn.addEventListener('click', () => track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' }));
-                prevBtn.addEventListener('click', () => track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' }));
+                nextBtn.addEventListener("click", () => {
+                    track.scrollBy({ left: getScrollAmount(), behavior: "smooth" });
+                });
+
+                prevBtn.addEventListener("click", () => {
+                    track.scrollBy({ left: -getScrollAmount(), behavior: "smooth" });
+                });
             }
         });
     </script>
