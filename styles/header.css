@@ -9,7 +9,6 @@
     padding: 14px 0;
     background: rgba(248, 252, 255, 0.8);
     backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(219, 234, 254, 0.78);
 }
 
 .header-inner {
