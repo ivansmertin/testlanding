@@ -11,7 +11,12 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 24px;
-    margin-bottom: 30px;
+    margin-bottom: 64px; /* Было 30px */
+}
+
+/* Добавляем это правило, чтобы заголовок и подзаголовок не разъезжались */
+.benefits-title-wrapper .section-title {
+    margin-bottom: 16px;
 }
 
 .slider-controls {
