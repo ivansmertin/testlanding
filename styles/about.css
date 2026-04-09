@@ -95,20 +95,20 @@
 }
 
 .stat-title {
-    margin: 0 0 14px 0;
+    margin: 0 0 12px 0; /* Синхронизировали с author-name */
     font-size: 30px;
-    line-height: 1.04;
+    line-height: 1.1;
     font-weight: 800;
     letter-spacing: -0.03em;
-    color: var(--accent-hover);
+    color: var(--text-primary); /* Убрали синий акцент */
 }
 
 .stat-desc {
     margin: 0;
     font-size: 16px;
-    line-height: 1.55;
+    line-height: 1.7; /* Синхронизировали с author-regalia */
     color: var(--text-secondary);
-    font-weight: 600;
+    /* Убрали font-weight: 600, чтобы начертание было базовым */
 }
 
 .text-on-accent {
@@ -120,25 +120,21 @@
     color: #ffffff !important; 
 }
 
-
 .stat-card--quote {
-    flex-direction: row;
-    align-items: center;
-    gap: 22px;
+    /* Убрали flex-row и отступы, так как иконки больше нет. 
+       Теперь текст аккуратно встанет по центру (наследует стили от .stat-card) */
     background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
 }
 
 .quote-icon {
-    width: 58px;
-    height: 58px;
-    flex-shrink: 0;
+    /* Этот класс можно полностью удалить из файла, так как иконки больше нет */
 }
 
 .quote-text {
     margin: 0;
     font-size: 16px;
     line-height: 1.7;
-    color: var(--text-primary);
+    color: var(--text-secondary); /* Сделали приглушенным, как остальной текст */
 }
 
 .wave-bg {
