@@ -95,20 +95,19 @@
 }
 
 .stat-title {
-    margin: 0 0 12px 0; /* Синхронизировали с author-name */
+    margin: 0 0 12px 0;
     font-size: 30px;
     line-height: 1.1;
     font-weight: 800;
     letter-spacing: -0.03em;
-    color: var(--text-primary); /* Убрали синий акцент */
+    color: var(--text-primary);
 }
 
 .stat-desc {
     margin: 0;
     font-size: 16px;
-    line-height: 1.7; /* Синхронизировали с author-regalia */
+    line-height: 1.7;
     color: var(--text-secondary);
-    /* Убрали font-weight: 600, чтобы начертание было базовым */
 }
 
 .text-on-accent {
@@ -121,20 +120,53 @@
 }
 
 .stat-card--quote {
-    /* Убрали flex-row и отступы, так как иконки больше нет. 
-       Теперь текст аккуратно встанет по центру (наследует стили от .stat-card) */
+    position: relative;
     background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
 }
 
-.quote-icon {
-    /* Этот класс можно полностью удалить из файла, так как иконки больше нет */
+.stat-card--quote::after {
+    content: "✦";
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-size: 24px;
+    color: var(--accent);
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+    transition: 
+        opacity 0.4s var(--motion-ease), 
+        transform 0.4s var(--motion-ease);
+    pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .stat-card--quote:hover::after {
+        opacity: 1;
+        animation: pulse-star 2.5s infinite ease-in-out;
+    }
+}
+
+@keyframes pulse-star {
+    0% { 
+        transform: scale(0.8) rotate(0deg); 
+        color: var(--accent); 
+    }
+    50% { 
+        transform: scale(1.15) rotate(90deg); 
+        color: var(--accent-hover); 
+        text-shadow: 0 0 12px rgba(14, 165, 233, 0.4); 
+    }
+    100% { 
+        transform: scale(0.8) rotate(180deg); 
+        color: var(--accent); 
+    }
 }
 
 .quote-text {
     margin: 0;
     font-size: 16px;
     line-height: 1.7;
-    color: var(--text-secondary); /* Сделали приглушенным, как остальной текст */
+    color: var(--text-secondary);
 }
 
 .wave-bg {
