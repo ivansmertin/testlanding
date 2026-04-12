@@ -1,0 +1,528 @@
+@import url("tokens.css");
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* ── Header ── */
+.admin-header {
+    background: linear-gradient(135deg, var(--surface-inverse-start), var(--surface-inverse-end));
+    color: #fff;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.admin-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.admin-header img {
+    height: 32px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.admin-header h1 {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-user {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* ── Auth Screen ── */
+.auth-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 64px);
+    padding: 24px;
+}
+
+.auth-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: var(--shadow-soft);
+}
+
+.auth-card h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.auth-card p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+/* ── Forms ── */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-overlay-14);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* ── Buttons ── */
+.admin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, opacity 0.2s;
+}
+
+.admin-btn:active {
+    transform: scale(0.97);
+}
+
+.admin-btn--primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.admin-btn--primary:hover {
+    background: var(--accent-hover);
+}
+
+.admin-btn--outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.admin-btn--outline:hover {
+    background: var(--surface-alt);
+}
+
+.admin-btn--danger {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+}
+
+.admin-btn--danger:hover {
+    background: #fef2f2;
+}
+
+.admin-btn--sm {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.admin-btn--ghost {
+    background: transparent;
+    color: var(--text-inverse-soft);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 14px;
+    font-size: 13px;
+}
+
+.admin-btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Dashboard Layout ── */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: calc(100vh - 64px);
+}
+
+/* ── Sidebar ── */
+.admin-sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+}
+
+.sidebar-section {
+    padding: 0 12px;
+    margin-bottom: 8px;
+}
+
+.sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    padding: 8px 12px 4px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    font-family: inherit;
+    text-align: left;
+    transition: background 0.15s, color 0.15s;
+}
+
+.sidebar-link:hover {
+    background: var(--surface-alt);
+    color: var(--text-primary);
+}
+
+.sidebar-link.is-active {
+    background: var(--accent-overlay-10);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.sidebar-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+.sidebar-link.is-active .sidebar-icon {
+    opacity: 1;
+}
+
+/* ── Main Content ── */
+.admin-main {
+    padding: 24px 32px;
+    max-width: 860px;
+}
+
+.section-editor {
+    display: none;
+}
+
+.section-editor.is-visible {
+    display: block;
+}
+
+.editor-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.editor-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-soft);
+}
+
+.editor-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+/* ── List Editor ── */
+.list-editor-item {
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.list-editor-item .item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.item-number {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    background: var(--surface);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.item-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.item-action-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    cursor: pointer;
+    color: var(--text-tertiary);
+    font-size: 14px;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.item-action-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+}
+
+.item-action-btn--delete:hover {
+    color: #ef4444;
+    border-color: #fecaca;
+}
+
+/* ── Mail Section ── */
+.mail-card {
+    background: linear-gradient(135deg, var(--surface-inverse-start), var(--surface-inverse-end));
+    border-radius: var(--radius-md);
+    padding: 32px;
+    color: #fff;
+    text-align: center;
+}
+
+.mail-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.mail-card p {
+    opacity: 0.7;
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.mail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.mail-link:hover {
+    background: var(--accent-hover);
+}
+
+/* ── Actions Bar ── */
+.admin-actions-bar {
+    position: fixed;
+    bottom: 0;
+    left: 240px;
+    right: 0;
+    background: var(--surface-overlay-95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    z-index: 50;
+}
+
+/* ── Status Messages ── */
+.admin-toast {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 200;
+    transform: translateX(120%);
+    transition: transform 0.3s var(--motion-ease);
+}
+
+.admin-toast.is-visible {
+    transform: translateX(0);
+}
+
+.admin-toast--success {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.admin-toast--error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* ── Loading Spinner ── */
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Mobile Sidebar Toggle ── */
+.admin-sidebar-toggle {
+    display: none;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .admin-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-sidebar {
+        position: fixed;
+        left: -260px;
+        top: 64px;
+        width: 260px;
+        height: calc(100vh - 64px);
+        z-index: 80;
+        transition: left 0.3s var(--motion-ease);
+    }
+
+    .admin-sidebar.is-open {
+        left: 0;
+    }
+
+    .admin-sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        top: 64px;
+        background: var(--overlay-scrim);
+        z-index: 79;
+    }
+
+    .admin-sidebar-overlay.is-visible {
+        display: block;
+    }
+
+    .admin-sidebar-toggle {
+        display: flex;
+    }
+
+    .admin-main {
+        padding: 16px;
+    }
+
+    .admin-actions-bar {
+        left: 0;
+        padding: 12px 16px;
+    }
+
+    .auth-card {
+        padding: 24px;
+    }
+}

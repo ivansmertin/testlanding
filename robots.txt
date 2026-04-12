@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /legacy/
 Disallow: /Documentation/
+Disallow: /admin.html
 
 Sitemap: https://snafstudio.ru/sitemap.xml

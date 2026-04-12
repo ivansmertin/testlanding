@@ -5,5 +5,11 @@ window.SNAF_CONFIG = {
         yandexMetrikaId: "",
         gaMeasurementId: "",
         yandexGoalName: "cta_click"
+    },
+    admin: {
+        // Заполните данными вашего GitHub-репозитория.
+        repoOwner: "",
+        repoName: "",
+        contentPath: "data/content.json"
     }
 };

@@ -119,19 +119,19 @@
                 <div class="hero-card surface-glow">
                     <div class="hero-grid">
                         <div class="hero-content">
-                            <span class="hero-badge">Дизайн · интерфейсы · вёрстка</span>
+                            <span class="hero-badge" data-content="hero.badge">Дизайн · интерфейсы · вёрстка</span>
 
-                            <h1 class="hero-title" id="hero-title">
+                            <h1 class="hero-title" id="hero-title" data-content="hero.title">
                                 Создаю красивые сайты,<br>которые работают
                             </h1>
 
-                            <p class="hero-subtitle">
+                            <p class="hero-subtitle" data-content="hero.subtitle">
                                 Разрабатываю и запускаю современные лендинги и корпоративные сайты.
                                 Продуманный дизайн, удобные интерфейсы, адаптивность и внимание
                                 к бизнес-задачам и потребностям клиента.
                             </p>
 
-                            <div class="hero-points" aria-label="Ключевые преимущества">
+                            <div class="hero-points" aria-label="Ключевые преимущества" data-content-list="hero-points">
                                 <span class="hero-point">Лендинги</span>
                                 <span class="hero-point">Корпоративные сайты</span>
                                 <span class="hero-point">Современная вёрстка</span>
@@ -144,9 +144,9 @@
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    Обсудить проект
+                                    <span data-content="hero.ctaPrimary">Обсудить проект</span>
                                 </a>
-                                <a href="#about" class="btn btn--outline">Узнать больше</a>
+                                <a href="#about" class="btn btn--outline"><span data-content="hero.ctaSecondary">Узнать больше</span></a>
                             </div>
                         </div>
 
@@ -203,8 +203,8 @@
                             decoding="async"
                         >
                         <div class="author-info">
-                            <h3 class="author-name">Иван Смертин</h3>
-                            <p class="author-regalia">
+                            <h3 class="author-name" data-content="about.name">Иван Смертин</h3>
+                            <p class="author-regalia" data-content="about.description">
                                 Привет! Я создаю с нуля современные лендинги и сайты,
                                 которые выглядят привлекательно, работают быстро, вызывают доверие у клиентов,
                                 просты в использовании и удобны в обслуживании.
@@ -228,7 +228,7 @@
 
 <article class="stat-card stat-card--muted stat-wide surface-glow">
     <p class="stat-title">Рабочие инструменты</p>
-    <div class="tech-stack">
+    <div class="tech-stack" data-content-list="tech-stack">
         <span class="tech-badge">HTML5</span>
         <span class="tech-badge">CSS3</span>
         <span class="tech-badge">BEM</span>
@@ -263,8 +263,8 @@
             <div class="container">
                 <div class="benefits-header reveal-stagger">
                     <div class="benefits-title-wrapper">
-                        <h2 class="section-title" id="value-title">Что вы получите</h2>
-                        <p class="section-subtitle">
+                        <h2 class="section-title" id="value-title" data-content="benefits.title">Что вы получите</h2>
+                        <p class="section-subtitle" data-content="benefits.subtitle">
                             Сайт, который выглядит современно, вызывает доверие и помогает
                             продавать ваши услуги или товары
                         </p>
@@ -285,7 +285,7 @@
                     </div>
                 </div>
 
-                <div class="carousel-track reveal-stagger" id="benefitsCarousel" aria-label="Преимущества работы">
+                <div class="carousel-track reveal-stagger" id="benefitsCarousel" aria-label="Преимущества работы" data-content-list="benefits">
                     <article class="carousel-card surface-glow">
                         <h3 class="card-title">Продуманный визуальный образ</h3>
                         <p class="card-text">
@@ -329,7 +329,7 @@
             <div class="container">
                 <h2 class="section-title" id="process-title">Как я работаю</h2>
 
-                <div class="process-steps reveal-stagger">
+                <div class="process-steps reveal-stagger" data-content-list="process">
                     <article class="process-step surface-glow">
                         <div class="process-step-number">01</div>
                         <h3 class="process-step-title">Бриф</h3>
@@ -361,10 +361,10 @@
             <div class="container">
                 <div class="pricing-header">
                     <h2 class="section-title" id="pricing-title">Стоимость</h2>
-                    <p class="section-subtitle">Простая и прозрачная цена — <strong>2 000 ₽ за один блок</strong> любой сложности</p>
+                    <p class="section-subtitle" data-content="pricing.subtitle">Простая и прозрачная цена — <strong>2 000 ₽ за один блок</strong> любой сложности</p>
                 </div>
 
-                <div class="pricing-grid reveal-stagger">
+                <div class="pricing-grid reveal-stagger" data-content-list="pricing">
                     <article class="pricing-card surface-glow">
                         <div class="pricing-card-header">
                             <h3>Лендинг</h3>
@@ -412,7 +412,7 @@
                     </article>
                 </div>
 
-                <p class="pricing-note">Точная стоимость зависит от количества и сложности блоков. Напишите — оценю бесплатно.</p>
+                <p class="pricing-note" data-content="pricing.note">Точная стоимость зависит от количества и сложности блоков. Напишите — оценю бесплатно.</p>
             </div>
         </section>
 
@@ -420,7 +420,7 @@
             <div class="container">
                 <h2 class="section-title" id="faq-title">Вопросы и ответы</h2>
 
-                <div class="faq-list reveal-stagger">
+                <div class="faq-list reveal-stagger" data-content-list="faq">
                     <article class="faq-item surface-glow">
                         <h3 class="faq-question-heading">
                             <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-panel-1" id="faq-button-1">
@@ -516,8 +516,8 @@
                 </div>
 
                 <div class="cta-bottom reveal">
-                    <h3 class="cta-bottom-title">Готовы обсудить вашу задачу?</h3>
-                    <p class="cta-bottom-text">
+                    <h3 class="cta-bottom-title" data-content="cta.title">Готовы обсудить вашу задачу?</h3>
+                    <p class="cta-bottom-text" data-content="cta.text">
                         Напишите мне в Телеграм или ВК. Я на связи,
                         проконсультирую бесплатно и сориентирую по срокам.
                     </p>
@@ -528,9 +528,9 @@
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Написать в Телеграм
+                            <span data-content="cta.primaryButton">Написать в Телеграм</span>
                         </a>
-                        <a href="tel:+79965682047" class="btn btn--outline">Позвонить</a>
+                        <a href="tel:+79965682047" class="btn btn--outline"><span data-content="cta.secondaryButton">Позвонить</span></a>
                     </div>
                 </div>
             </div>
@@ -545,8 +545,8 @@
                         <img src="images/logo.svg" alt="Логотип СНАФ СТУДИЯ" width="240" height="40">
                     </a>
 
-                    <a href="mailto:smertin.lingv@gmail.com" class="footer-link footer-contact">
-                        smertin.lingv@gmail.com
+                    <a href="mailto:mail@snafstudio.ru" class="footer-link footer-contact" data-content="footer.email">
+                        mail@snafstudio.ru
                     </a>
 
                     <div class="footer-legal-links">
@@ -557,8 +557,8 @@
 
                 <div class="footer-column footer-column--contacts">
                     <a href="tel:+79965682047" class="footer-link footer-phone">+7 996 568 20 47</a>
-                    <p class="footer-note">Связаться по поводу проекта</p>
-                    <p class="footer-note footer-note--muted">Самозанятый / работа по договоренности</p>
+                    <p class="footer-note" data-content="footer.note">Связаться по поводу проекта</p>
+                    <p class="footer-note footer-note--muted" data-content="footer.legalNote">Самозанятый / работа по договоренности</p>
                 </div>
 
                 <div class="footer-column footer-column--social">
@@ -582,8 +582,8 @@
                     </div>
 
                     <div class="footer-meta">
-                        <p class="footer-copy">© Иван Смертин, 2026</p>
-                        <p class="footer-rights">Все права защищены</p>
+                        <p class="footer-copy" data-content="footer.copyright">© Иван Смертин, 2026</p>
+                        <p class="footer-rights" data-content="footer.rights">Все права защищены</p>
                     </div>
                 </div>
             </div>
@@ -604,6 +604,7 @@
 
     <!-- Яндекс.Метрика / GA4: вставить код счётчика после получения ID -->
     <script src="js/site-config.js" defer></script>
+    <script src="js/content-loader.js" defer></script>
     <script src="js/main.js" defer></script>
 </body>
 </html>
