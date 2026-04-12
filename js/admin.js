@@ -379,6 +379,11 @@
             techStat.badges = techItems.map(function (t) { return t.badge; });
         }
 
+        if (!data.footer) data.footer = {};
+        if (data.contact && data.contact.email) {
+            data.footer.email = data.contact.email;
+        }
+
         data.meta.lastModified = new Date().toISOString();
         data.meta.modifiedBy = state.username;
 

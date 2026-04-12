@@ -410,6 +410,37 @@ textarea.form-input {
     background: var(--accent-hover);
 }
 
+.mail-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.mail-link--secondary {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mail-link--secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mail-steps {
+    padding-left: 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.mail-note {
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
 /* ── Actions Bar ── */
 .admin-actions-bar {
     position: fixed;

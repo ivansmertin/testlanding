@@ -114,19 +114,71 @@
                     <h2 class="editor-title">Почта</h2>
                     <div class="mail-card">
                         <h3>mail@snafstudio.ru</h3>
-                        <p>Для работы с почтой используйте веб-интерфейс почтового сервиса.<br>Настройте домен через Яндекс 360 или Mail.ru для бизнеса.</p>
-                        <a href="https://mail.yandex.ru" class="mail-link" target="_blank" rel="noopener noreferrer">
-                            Открыть Яндекс Почту
-                        </a>
+                        <p>Это бесплатный forwarding через ImprovMX: письма на <code>mail@snafstudio.ru</code> приходят в ваш личный ящик, а не в отдельный почтовый кабинет на домене.</p>
+                        <div class="mail-actions">
+                            <a href="https://app.improvmx.com/" class="mail-link" target="_blank" rel="noopener noreferrer">
+                                Открыть ImprovMX Dashboard
+                            </a>
+                            <a href="https://inspector.improvmx.com/" class="mail-link mail-link--secondary" target="_blank" rel="noopener noreferrer">
+                                Открыть Inspector
+                            </a>
+                        </div>
                     </div>
+
                     <div class="editor-card" style="margin-top: 16px;">
-                        <h4>Инструкция по настройке почты на домене</h4>
-                        <ol style="padding-left: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.8;">
-                            <li>Зарегистрируйтесь в <strong>Яндекс 360</strong> (admin.yandex.ru) или <strong>Mail.ru для бизнеса</strong></li>
-                            <li>Подтвердите владение доменом <code>snafstudio.ru</code> через DNS TXT запись</li>
-                            <li>Настройте MX записи согласно инструкции сервиса</li>
-                            <li>Добавьте SPF и DKIM записи для улучшения доставляемости</li>
-                            <li>Создайте ящик <code>mail@snafstudio.ru</code></li>
+                        <h4>Настройка форвардинга (ImprovMX)</h4>
+                        <ol class="mail-steps">
+                            <li>Зарегистрируйтесь в <a href="https://app.improvmx.com/" target="_blank" rel="noopener noreferrer"><strong>ImprovMX</strong></a> и добавьте домен <code>snafstudio.ru</code>.</li>
+                            <li>Создайте alias: <code>mail</code> &rarr; <code>ваш-личный-ящик@example.com</code>.</li>
+                            <li>В DNS-панели регистратора удалите все прежние <strong>MX-записи</strong> для домена.</li>
+                            <li>Добавьте новые MX и TXT записи из таблицы ниже.</li>
+                            <li>Подождите распространение DNS: обычно быстрее, но закладывайте до <strong>24–48 часов</strong>.</li>
+                            <li>Проверьте домен через <a href="https://inspector.improvmx.com/" target="_blank" rel="noopener noreferrer"><strong>ImprovMX Inspector</strong></a>.</li>
+                        </ol>
+                        <p class="mail-note">В бесплатном сценарии ImprovMX вы настраиваете только приём и пересылку писем. Полноценная отправка писем от имени домена — это отдельная настройка через Gmail send-as или SMTP.</p>
+                    </div>
+
+                    <div class="editor-card">
+                        <h4>DNS записи для snafstudio.ru</h4>
+                        <table style="width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 8px;">
+                            <thead>
+                                <tr style="text-align: left; border-bottom: 2px solid var(--border);">
+                                    <th style="padding: 8px 12px;">Тип</th>
+                                    <th style="padding: 8px 12px;">Хост</th>
+                                    <th style="padding: 8px 12px;">Значение</th>
+                                    <th style="padding: 8px 12px;">Приоритет</th>
+                                </tr>
+                            </thead>
+                            <tbody style="color: var(--text-secondary);">
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 8px 12px;"><strong>MX</strong></td>
+                                    <td style="padding: 8px 12px;">@</td>
+                                    <td style="padding: 8px 12px;"><code>mx1.improvmx.com</code></td>
+                                    <td style="padding: 8px 12px;">10</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 8px 12px;"><strong>MX</strong></td>
+                                    <td style="padding: 8px 12px;">@</td>
+                                    <td style="padding: 8px 12px;"><code>mx2.improvmx.com</code></td>
+                                    <td style="padding: 8px 12px;">20</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px;"><strong>TXT</strong></td>
+                                    <td style="padding: 8px 12px;">@</td>
+                                    <td style="padding: 8px 12px;"><code>v=spf1 include:spf.improvmx.com ~all</code></td>
+                                    <td style="padding: 8px 12px;">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="editor-card">
+                        <h4>Как проверить, что форвардинг работает</h4>
+                        <ol class="mail-steps">
+                            <li>Отправьте тестовое письмо на <code>mail@snafstudio.ru</code> с другого адреса, не с того же ящика, куда идёт пересылка.</li>
+                            <li>Либо нажмите <strong>Test</strong> рядом с alias в ImprovMX Dashboard.</li>
+                            <li>Если письма не видно, сначала проверьте <strong>Спам / Junk</strong>.</li>
+                            <li>Если всё ещё пусто, откройте вкладку <strong>Logs</strong> в ImprovMX и посмотрите, дошло ли письмо до сервиса и как оно было обработано.</li>
                         </ol>
                     </div>
                 </div>
@@ -144,7 +196,7 @@
                             <input class="form-input" data-field="contact.phoneHref">
                         </div>
                         <div class="form-group">
-                            <label>Email</label>
+                            <label>Email (используется и в футере)</label>
                             <input class="form-input" data-field="contact.email">
                         </div>
                         <div class="form-group">
@@ -287,10 +339,7 @@
                 <div class="section-editor" data-editor="footer">
                     <h2 class="editor-title">Футер</h2>
                     <div class="editor-card">
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-input" data-field="footer.email">
-                        </div>
+                        <p class="mail-note">Email в футере берётся из раздела «Контакты», чтобы адрес на сайте всегда оставался единым.</p>
                         <div class="form-group">
                             <label>Примечание</label>
                             <input class="form-input" data-field="footer.note">

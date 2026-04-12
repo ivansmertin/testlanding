@@ -33,6 +33,11 @@
         elements.forEach(function (el) {
             var value = getNestedValue(data, el.getAttribute("data-href"));
             if (value === undefined) return;
+            var prefix = el.getAttribute("data-href-prefix") || "";
+            if (typeof value !== "string") return;
+            if (prefix && value.indexOf(prefix) !== 0) {
+                value = prefix + value;
+            }
             el.setAttribute("href", value);
         });
     }
