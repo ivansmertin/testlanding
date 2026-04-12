@@ -361,6 +361,16 @@ textarea.form-input {
     border-color: #fecaca;
 }
 
+/* ── Sidebar Overlay ── */
+.admin-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    top: 64px;
+    background: var(--overlay-scrim);
+    z-index: 79;
+}
+
 /* ── Mail Section ── */
 .mail-card {
     background: linear-gradient(135deg, var(--surface-inverse-start), var(--surface-inverse-end));
@@ -494,15 +504,6 @@ textarea.form-input {
 
     .admin-sidebar.is-open {
         left: 0;
-    }
-
-    .admin-sidebar-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        top: 64px;
-        background: var(--overlay-scrim);
-        z-index: 79;
     }
 
     .admin-sidebar-overlay.is-visible {
