@@ -15,6 +15,6 @@ window.SNAF_CONFIG = {
     chat: {
         enabled: true,
         // Укажите URL backend-сервиса на вашей VDS, например: https://api.snafstudio.ru
-        apiBaseUrl: ""
+    apiBaseUrl: "https://api.snafstudio.ru"
     }
 };
