@@ -474,7 +474,7 @@
             showToast("Не удалось сохранить превью", "error");
             return;
         }
-        window.open("index.html", "_blank");
+        window.open("index.html?preview=1", "_blank");
     }
 
     function handlePublish() {

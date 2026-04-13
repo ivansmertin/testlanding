@@ -113,6 +113,17 @@ body {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+select.form-input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 42px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px 8px;
+}
+
 .form-input:focus {
     outline: none;
     border-color: var(--accent);
@@ -269,8 +280,9 @@ textarea.form-input {
 
 /* ── Main Content ── */
 .admin-main {
-    padding: 24px 32px;
-    max-width: 860px;
+    width: 100%;
+    min-width: 0;
+    padding: 24px 32px 112px;
 }
 
 .section-editor {
@@ -562,7 +574,7 @@ textarea.form-input {
 
 .crm-controls {
     margin-top: 16px;
-    padding: 16px;
+    padding: 18px;
     border-radius: 18px;
     background: var(--surface-muted);
     border: 1px solid var(--border);
@@ -580,6 +592,11 @@ textarea.form-input {
 
 .crm-field {
     display: block;
+}
+
+.crm-field .form-input,
+.inbox-detail-grid--form .form-input {
+    min-height: 44px;
 }
 
 .crm-field--wide {
@@ -635,8 +652,8 @@ textarea.form-input {
 
 .inbox-layout {
     display: grid;
-    grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
-    gap: 16px;
+    grid-template-columns: minmax(320px, 0.92fr) minmax(0, 1.48fr);
+    gap: 18px;
     margin-top: 20px;
 }
 
@@ -938,12 +955,13 @@ textarea.form-input {
     background: var(--surface-overlay-95);
     backdrop-filter: blur(12px);
     border-top: 1px solid var(--border);
-    padding: 12px 32px;
+    padding: 14px 32px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 12px;
     z-index: 50;
+    box-shadow: 0 -12px 30px rgba(15, 23, 42, 0.06);
 }
 
 /* ── Status Messages ── */
@@ -1034,7 +1052,7 @@ textarea.form-input {
     }
 
     .admin-main {
-        padding: 16px;
+        padding: 16px 16px 96px;
     }
 
     .admin-actions-bar {

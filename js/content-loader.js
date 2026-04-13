@@ -8,6 +8,26 @@
     var CONTENT_PATH = "data/content.json";
     var PREVIEW_KEY = "snaf-admin-preview";
 
+    function isPreviewMode() {
+        try {
+            return new URL(window.location.href).searchParams.get("preview") === "1";
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function ensurePreviewIndicator() {
+        if (!document.body || document.querySelector(".preview-indicator")) return;
+
+        document.body.classList.add("is-preview-mode");
+
+        var indicator = document.createElement("div");
+        indicator.className = "preview-indicator";
+        indicator.setAttribute("role", "status");
+        indicator.textContent = "Режим предпросмотра";
+        document.body.appendChild(indicator);
+    }
+
     function getNestedValue(obj, path) {
         return path.split(".").reduce(function (o, key) {
             return o && o[key] !== undefined ? o[key] : undefined;
@@ -174,17 +194,25 @@
     }
 
     function loadContent() {
+        var previewMode = isPreviewMode();
+
+        if (previewMode) {
+            ensurePreviewIndicator();
+        }
+
         // Check for admin preview data first
-        try {
-            var preview = window.localStorage.getItem(PREVIEW_KEY);
-            if (preview) {
-                var previewData = JSON.parse(preview);
-                window.localStorage.removeItem(PREVIEW_KEY);
-                applyContent(previewData);
-                return;
+        if (previewMode) {
+            try {
+                var preview = window.localStorage.getItem(PREVIEW_KEY);
+                if (preview) {
+                    var previewData = JSON.parse(preview);
+                    window.localStorage.removeItem(PREVIEW_KEY);
+                    applyContent(previewData);
+                    return;
+                }
+            } catch (e) {
+                // Ignore parse errors
             }
-        } catch (e) {
-            // Ignore parse errors
         }
 
         // Fetch from JSON file

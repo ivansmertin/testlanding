@@ -25,6 +25,7 @@
         apiConfigured: Boolean(apiBaseUrl),
         leadMode: false,
         leadError: "",
+        quickReplyPage: 0,
         content: {
             contact: {
                 telegram: "https://t.me/smrtnivn"
@@ -106,7 +107,10 @@
             }
         });
 
-        window.addEventListener("resize", syncCookieOffset);
+        window.addEventListener("resize", function () {
+            syncCookieOffset();
+            renderComposer();
+        });
 
         var banner = document.querySelector(".cookie-banner");
         if (banner && "MutationObserver" in window) {
@@ -173,6 +177,7 @@
             { role: "bot", text: state.content.chatBot.intro }
         ];
         state.suggestions = state.apiConfigured ? state.content.chatBot.quickReplies.slice() : [];
+        state.quickReplyPage = 0;
         state.leadMode = false;
         state.leadError = "";
     }
@@ -294,6 +299,7 @@
         composerEl.innerHTML =
             statusBlock +
             '<div class="chat-widget__actions" id="chat-widget-actions"></div>' +
+            '<div class="chat-widget__links" id="chat-widget-links"></div>' +
             '<div class="chat-widget__composer-row">' +
                 '<input class="chat-widget__field" id="chat-widget-input" type="text" placeholder="' + escapeAttr(getInputPlaceholder()) + '"' + (inputDisabled ? " disabled" : "") + ">" +
                 '<button class="chat-widget__submit" id="chat-widget-send" type="button"' + (inputDisabled ? " disabled" : "") + ">" +
@@ -303,7 +309,8 @@
             '<p class="chat-widget__composer-hint">Бот отвечает по содержанию сайта и может передать вопрос в заявки.</p>';
 
         var actionsEl = composerEl.querySelector("#chat-widget-actions");
-        populateActions(actionsEl);
+        var linksEl = composerEl.querySelector("#chat-widget-links");
+        populateActions(actionsEl, linksEl);
 
         var input = composerEl.querySelector("#chat-widget-input");
         var sendButton = composerEl.querySelector("#chat-widget-send");
@@ -322,21 +329,34 @@
         }
     }
 
-    function populateActions(container) {
+    function populateActions(container, linksContainer) {
         if (!container) return;
         container.innerHTML = "";
+        if (linksContainer) {
+            linksContainer.innerHTML = "";
+        }
 
         var actions = state.suggestions.slice();
         if (!state.apiConfigured) {
             actions = [];
         }
 
-        actions.forEach(function (label) {
+        var pageSize = getQuickReplyPageSize();
+        var totalPages = pageSize > 0 ? Math.ceil(actions.length / pageSize) : 1;
+        if (state.quickReplyPage >= totalPages) {
+            state.quickReplyPage = 0;
+        }
+
+        var startIndex = state.quickReplyPage * pageSize;
+        var visibleActions = actions.slice(startIndex, startIndex + pageSize);
+
+        visibleActions.forEach(function (label) {
             var button = document.createElement("button");
             button.className = "chat-widget__quick-reply";
             button.type = "button";
             button.textContent = label;
             button.addEventListener("click", function () {
+                state.quickReplyPage = 0;
                 if (label === "Оставить заявку") {
                     openLeadMode();
                 } else {
@@ -346,6 +366,20 @@
             container.appendChild(button);
         });
 
+        if (totalPages > 1) {
+            var moreButton = document.createElement("button");
+            moreButton.textContent = "\u0415\u0449\u0435";
+            moreButton.className = "chat-widget__quick-reply chat-widget__quick-reply--more";
+            moreButton.type = "button";
+            moreButton.textContent = "Р•С‰Рµ";
+            moreButton.textContent = "\u0415\u0449\u0435";
+            moreButton.addEventListener("click", function () {
+                state.quickReplyPage = (state.quickReplyPage + 1) % totalPages;
+                renderComposer();
+            });
+            container.appendChild(moreButton);
+        }
+
         if (state.content.contact && state.content.contact.telegram) {
             var telegramLink = document.createElement("a");
             telegramLink.className = "chat-widget__link";
@@ -353,7 +387,11 @@
             telegramLink.target = "_blank";
             telegramLink.rel = "noopener noreferrer";
             telegramLink.textContent = "Написать в Telegram";
-            container.appendChild(telegramLink);
+            if (linksContainer) {
+                linksContainer.appendChild(telegramLink);
+            } else {
+                container.appendChild(telegramLink);
+            }
         }
     }
 
@@ -715,6 +753,10 @@
             return "Подключите backend API или используйте Telegram";
         }
         return "Напишите вопрос о проекте";
+    }
+
+    function getQuickReplyPageSize() {
+        return 2;
     }
 
     function getContactLabel() {
