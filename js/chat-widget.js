@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     "use strict";
 
     var siteConfig = window.SNAF_CONFIG || {};
@@ -25,19 +25,18 @@
         apiConfigured: Boolean(apiBaseUrl),
         leadMode: false,
         leadError: "",
-        quickReplyPage: 0,
         content: {
             contact: {
                 telegram: "https://t.me/smrtnivn"
             },
             chatBot: {
-                launcherLabel: "Задать вопрос",
-                greeting: "Привет! Я помогу быстро сориентироваться по услугам СНАФ СТУДИИ.",
-                intro: "Можно спросить про стоимость, сроки, формат работы или сразу оставить заявку.",
-                quickReplies: ["Стоимость", "Сроки", "Что вы делаете?", "Оставить заявку"],
-                capturePrompt: "Если хотите, я передам ваш вопрос в заявки. Оставьте имя и удобный контакт, и я свяжусь с вами.",
-                successMessage: "Спасибо! Заявка сохранена. Я посмотрю вопрос и вернусь к вам по указанному контакту.",
-                fallbackMessage: "Сейчас чат недоступен. Напишите мне в Telegram, и я отвечу вручную."
+                launcherLabel: "Р—Р°РґР°С‚СЊ РІРѕРїСЂРѕСЃ",
+                greeting: "РџСЂРёРІРµС‚! РЇ РїРѕРјРѕРіСѓ Р±С‹СЃС‚СЂРѕ СЃРѕСЂРёРµРЅС‚РёСЂРѕРІР°С‚СЊСЃСЏ РїРѕ СѓСЃР»СѓРіР°Рј РЎРќРђР¤ РЎРўРЈР”РР.",
+                intro: "РњРѕР¶РЅРѕ СЃРїСЂРѕСЃРёС‚СЊ РїСЂРѕ СЃС‚РѕРёРјРѕСЃС‚СЊ, СЃСЂРѕРєРё, С„РѕСЂРјР°С‚ СЂР°Р±РѕС‚С‹ РёР»Рё СЃСЂР°Р·Сѓ РѕСЃС‚Р°РІРёС‚СЊ Р·Р°СЏРІРєСѓ.",
+                quickReplies: ["РЎС‚РѕРёРјРѕСЃС‚СЊ", "РЎСЂРѕРєРё", "Р§С‚Рѕ РІС‹ РґРµР»Р°РµС‚Рµ?", "РћСЃС‚Р°РІРёС‚СЊ Р·Р°СЏРІРєСѓ"],
+                capturePrompt: "Р•СЃР»Рё С…РѕС‚РёС‚Рµ, СЏ РїРµСЂРµРґР°Рј РІР°С€ РІРѕРїСЂРѕСЃ РІ Р·Р°СЏРІРєРё. РћСЃС‚Р°РІСЊС‚Рµ РёРјСЏ Рё СѓРґРѕР±РЅС‹Р№ РєРѕРЅС‚Р°РєС‚, Рё СЏ СЃРІСЏР¶СѓСЃСЊ СЃ РІР°РјРё.",
+                successMessage: "РЎРїР°СЃРёР±Рѕ! Р—Р°СЏРІРєР° СЃРѕС…СЂР°РЅРµРЅР°. РЇ РїРѕСЃРјРѕС‚СЂСЋ РІРѕРїСЂРѕСЃ Рё РІРµСЂРЅСѓСЃСЊ Рє РІР°Рј РїРѕ СѓРєР°Р·Р°РЅРЅРѕРјСѓ РєРѕРЅС‚Р°РєС‚Сѓ.",
+                fallbackMessage: "РЎРµР№С‡Р°СЃ С‡Р°С‚ РЅРµРґРѕСЃС‚СѓРїРµРЅ. РќР°РїРёС€РёС‚Рµ РјРЅРµ РІ Telegram, Рё СЏ РѕС‚РІРµС‡Сѓ РІСЂСѓС‡РЅСѓСЋ."
             }
         },
         leadForm: {
@@ -75,16 +74,16 @@
                         '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>' +
                     "</svg>" +
                 "</span>" +
-                '<span class="chat-widget__launcher-text">Задать вопрос</span>' +
+                '<span class="chat-widget__launcher-text">Р—Р°РґР°С‚СЊ РІРѕРїСЂРѕСЃ</span>' +
             "</button>" +
-            '<section class="chat-widget__panel" id="snaf-chat-panel" aria-label="Чат-бот СНАФ СТУДИИ">' +
+            '<section class="chat-widget__panel" id="snaf-chat-panel" aria-label="Р§Р°С‚-Р±РѕС‚ РЎРќРђР¤ РЎРўРЈР”РР">' +
                 '<div class="chat-widget__header">' +
                     '<div class="chat-widget__header-copy">' +
-                        '<div class="chat-widget__eyebrow">СНАФ СТУДИЯ</div>' +
-                        '<h2 class="chat-widget__title">Чат-бот по услугам</h2>' +
-                        '<p class="chat-widget__subtitle">Быстрый FAQ и передача заявки в работу</p>' +
+                        '<div class="chat-widget__eyebrow">РЎРќРђР¤ РЎРўРЈР”РРЇ</div>' +
+                        '<h2 class="chat-widget__title">Р§Р°С‚-Р±РѕС‚ РїРѕ СѓСЃР»СѓРіР°Рј</h2>' +
+                        '<p class="chat-widget__subtitle">Р‘С‹СЃС‚СЂС‹Р№ FAQ Рё РїРµСЂРµРґР°С‡Р° Р·Р°СЏРІРєРё РІ СЂР°Р±РѕС‚Сѓ</p>' +
                     "</div>" +
-                    '<button class="chat-widget__close" type="button" aria-label="Закрыть чат">&times;</button>' +
+                    '<button class="chat-widget__close" type="button" aria-label="Р—Р°РєСЂС‹С‚СЊ С‡Р°С‚">&times;</button>' +
                 "</div>" +
                 '<div class="chat-widget__body" aria-live="polite"></div>' +
                 '<div class="chat-widget__composer"></div>' +
@@ -107,10 +106,7 @@
             }
         });
 
-        window.addEventListener("resize", function () {
-            syncCookieOffset();
-            renderComposer();
-        });
+        window.addEventListener("resize", syncCookieOffset);
 
         var banner = document.querySelector(".cookie-banner");
         if (banner && "MutationObserver" in window) {
@@ -158,15 +154,15 @@
             next.contact.telegram = "https://t.me/smrtnivn";
         }
 
-        next.chatBot.launcherLabel = next.chatBot.launcherLabel || "Задать вопрос";
-        next.chatBot.greeting = next.chatBot.greeting || "Привет! Я помогу быстро сориентироваться по услугам СНАФ СТУДИИ.";
-        next.chatBot.intro = next.chatBot.intro || "Можно спросить про стоимость, сроки, формат работы или сразу оставить заявку.";
+        next.chatBot.launcherLabel = next.chatBot.launcherLabel || "Р—Р°РґР°С‚СЊ РІРѕРїСЂРѕСЃ";
+        next.chatBot.greeting = next.chatBot.greeting || "РџСЂРёРІРµС‚! РЇ РїРѕРјРѕРіСѓ Р±С‹СЃС‚СЂРѕ СЃРѕСЂРёРµРЅС‚РёСЂРѕРІР°С‚СЊСЃСЏ РїРѕ СѓСЃР»СѓРіР°Рј РЎРќРђР¤ РЎРўРЈР”РР.";
+        next.chatBot.intro = next.chatBot.intro || "РњРѕР¶РЅРѕ СЃРїСЂРѕСЃРёС‚СЊ РїСЂРѕ СЃС‚РѕРёРјРѕСЃС‚СЊ, СЃСЂРѕРєРё, С„РѕСЂРјР°С‚ СЂР°Р±РѕС‚С‹ РёР»Рё СЃСЂР°Р·Сѓ РѕСЃС‚Р°РІРёС‚СЊ Р·Р°СЏРІРєСѓ.";
         next.chatBot.quickReplies = Array.isArray(next.chatBot.quickReplies) && next.chatBot.quickReplies.length
             ? next.chatBot.quickReplies
-            : ["Стоимость", "Сроки", "Что вы делаете?", "Оставить заявку"];
-        next.chatBot.capturePrompt = next.chatBot.capturePrompt || "Оставьте имя и удобный контакт, и я передам ваш вопрос в работу.";
-        next.chatBot.successMessage = next.chatBot.successMessage || "Спасибо! Заявка сохранена.";
-        next.chatBot.fallbackMessage = next.chatBot.fallbackMessage || "Сейчас чат недоступен. Напишите мне в Telegram.";
+            : ["РЎС‚РѕРёРјРѕСЃС‚СЊ", "РЎСЂРѕРєРё", "Р§С‚Рѕ РІС‹ РґРµР»Р°РµС‚Рµ?", "РћСЃС‚Р°РІРёС‚СЊ Р·Р°СЏРІРєСѓ"];
+        next.chatBot.capturePrompt = next.chatBot.capturePrompt || "РћСЃС‚Р°РІСЊС‚Рµ РёРјСЏ Рё СѓРґРѕР±РЅС‹Р№ РєРѕРЅС‚Р°РєС‚, Рё СЏ РїРµСЂРµРґР°Рј РІР°С€ РІРѕРїСЂРѕСЃ РІ СЂР°Р±РѕС‚Сѓ.";
+        next.chatBot.successMessage = next.chatBot.successMessage || "РЎРїР°СЃРёР±Рѕ! Р—Р°СЏРІРєР° СЃРѕС…СЂР°РЅРµРЅР°.";
+        next.chatBot.fallbackMessage = next.chatBot.fallbackMessage || "РЎРµР№С‡Р°СЃ С‡Р°С‚ РЅРµРґРѕСЃС‚СѓРїРµРЅ. РќР°РїРёС€РёС‚Рµ РјРЅРµ РІ Telegram.";
         return next;
     }
 
@@ -177,7 +173,6 @@
             { role: "bot", text: state.content.chatBot.intro }
         ];
         state.suggestions = state.apiConfigured ? state.content.chatBot.quickReplies.slice() : [];
-        state.quickReplyPage = 0;
         state.leadMode = false;
         state.leadError = "";
     }
@@ -266,7 +261,7 @@
 
             var meta = document.createElement("div");
             meta.className = "chat-widget__message-meta";
-            meta.textContent = message.role === "bot" ? "Бот" : "Вы";
+            meta.textContent = message.role === "bot" ? "Р‘РѕС‚" : "Р’С‹";
             wrap.appendChild(meta);
 
             bodyEl.appendChild(wrap);
@@ -292,7 +287,7 @@
         if (!state.apiConfigured) {
             statusBlock =
                 '<div class="chat-widget__status">' +
-                    '<strong>Backend пока не подключён.</strong> Заполните <code>chat.apiBaseUrl</code> или используйте Telegram.' +
+                    '<strong>Backend РїРѕРєР° РЅРµ РїРѕРґРєР»СЋС‡С‘РЅ.</strong> Р—Р°РїРѕР»РЅРёС‚Рµ <code>chat.apiBaseUrl</code> РёР»Рё РёСЃРїРѕР»СЊР·СѓР№С‚Рµ Telegram.' +
                 "</div>";
         }
 
@@ -303,10 +298,10 @@
             '<div class="chat-widget__composer-row">' +
                 '<input class="chat-widget__field" id="chat-widget-input" type="text" placeholder="' + escapeAttr(getInputPlaceholder()) + '"' + (inputDisabled ? " disabled" : "") + ">" +
                 '<button class="chat-widget__submit" id="chat-widget-send" type="button"' + (inputDisabled ? " disabled" : "") + ">" +
-                    (state.loading ? "Отправка..." : "Отправить") +
+                    (state.loading ? "РћС‚РїСЂР°РІРєР°..." : "РћС‚РїСЂР°РІРёС‚СЊ") +
                 "</button>" +
             "</div>" +
-            '<p class="chat-widget__composer-hint">Бот отвечает по содержанию сайта и может передать вопрос в заявки.</p>';
+            '<p class="chat-widget__composer-hint">Р‘РѕС‚ РѕС‚РІРµС‡Р°РµС‚ РїРѕ СЃРѕРґРµСЂР¶Р°РЅРёСЋ СЃР°Р№С‚Р° Рё РјРѕР¶РµС‚ РїРµСЂРµРґР°С‚СЊ РІРѕРїСЂРѕСЃ РІ Р·Р°СЏРІРєРё.</p>';
 
         var actionsEl = composerEl.querySelector("#chat-widget-actions");
         var linksEl = composerEl.querySelector("#chat-widget-links");
@@ -329,35 +324,24 @@
         }
     }
 
-    function populateActions(container, linksContainer) {
+        function populateActions(container, linksContainer) {
         if (!container) return;
         container.innerHTML = "";
         if (linksContainer) {
             linksContainer.innerHTML = "";
         }
 
-        var actions = state.suggestions.slice();
-        if (!state.apiConfigured) {
-            actions = [];
-        }
+        var actions = state.apiConfigured
+            ? getVisibleQuickReplies(state.suggestions.slice())
+            : [];
 
-        var pageSize = getQuickReplyPageSize();
-        var totalPages = pageSize > 0 ? Math.ceil(actions.length / pageSize) : 1;
-        if (state.quickReplyPage >= totalPages) {
-            state.quickReplyPage = 0;
-        }
-
-        var startIndex = state.quickReplyPage * pageSize;
-        var visibleActions = actions.slice(startIndex, startIndex + pageSize);
-
-        visibleActions.forEach(function (label) {
+        actions.forEach(function (label) {
             var button = document.createElement("button");
             button.className = "chat-widget__quick-reply";
             button.type = "button";
             button.textContent = label;
             button.addEventListener("click", function () {
-                state.quickReplyPage = 0;
-                if (label === "Оставить заявку") {
+                if (label === "РћСЃС‚Р°РІРёС‚СЊ Р·Р°СЏРІРєСѓ") {
                     openLeadMode();
                 } else {
                     submitMessage(label);
@@ -365,20 +349,6 @@
             });
             container.appendChild(button);
         });
-
-        if (totalPages > 1) {
-            var moreButton = document.createElement("button");
-            moreButton.textContent = "\u0415\u0449\u0435";
-            moreButton.className = "chat-widget__quick-reply chat-widget__quick-reply--more";
-            moreButton.type = "button";
-            moreButton.textContent = "Р•С‰Рµ";
-            moreButton.textContent = "\u0415\u0449\u0435";
-            moreButton.addEventListener("click", function () {
-                state.quickReplyPage = (state.quickReplyPage + 1) % totalPages;
-                renderComposer();
-            });
-            container.appendChild(moreButton);
-        }
 
         if (state.content.contact && state.content.contact.telegram) {
             var telegramLink = document.createElement("a");
@@ -395,21 +365,33 @@
         }
     }
 
+    function getVisibleQuickReplies(actions) {
+        var labels = Array.isArray(actions) ? actions.slice() : [];
+        var primary = labels.slice(0, 2);
+        var leadLabel = "Оставить заявку";
+
+        if (labels.indexOf(leadLabel) !== -1 && primary.indexOf(leadLabel) === -1) {
+            primary.push(leadLabel);
+        }
+
+        return primary.slice(0, 3);
+    }
+
     function buildLeadCard() {
         var wrap = document.createElement("section");
         wrap.className = "chat-widget__lead-card";
         wrap.innerHTML =
-            '<div class="chat-widget__lead-title">Передать вопрос в заявки</div>' +
-            '<p class="chat-widget__lead-note">Оставьте имя, способ связи и вопрос. Я получу его в админке и в Telegram.</p>' +
+            '<div class="chat-widget__lead-title">РџРµСЂРµРґР°С‚СЊ РІРѕРїСЂРѕСЃ РІ Р·Р°СЏРІРєРё</div>' +
+            '<p class="chat-widget__lead-note">РћСЃС‚Р°РІСЊС‚Рµ РёРјСЏ, СЃРїРѕСЃРѕР± СЃРІСЏР·Рё Рё РІРѕРїСЂРѕСЃ. РЇ РїРѕР»СѓС‡Сѓ РµРіРѕ РІ Р°РґРјРёРЅРєРµ Рё РІ Telegram.</p>' +
             '<label class="chat-widget__field-group">' +
-                '<span class="chat-widget__field-label">Ваше имя</span>' +
-                '<input class="chat-widget__field" id="chat-lead-name" type="text" value="' + escapeAttr(state.leadForm.name) + '" placeholder="Например, Анна">' +
+                '<span class="chat-widget__field-label">Р’Р°С€Рµ РёРјСЏ</span>' +
+                '<input class="chat-widget__field" id="chat-lead-name" type="text" value="' + escapeAttr(state.leadForm.name) + '" placeholder="РќР°РїСЂРёРјРµСЂ, РђРЅРЅР°">' +
             "</label>" +
             '<div class="chat-widget__field-group">' +
-                '<span class="chat-widget__field-label">Как удобнее связаться</span>' +
+                '<span class="chat-widget__field-label">РљР°Рє СѓРґРѕР±РЅРµРµ СЃРІСЏР·Р°С‚СЊСЃСЏ</span>' +
                 '<div class="chat-widget__contact-options">' +
                     buildContactOption("telegram", "Telegram") +
-                    buildContactOption("phone", "Телефон") +
+                    buildContactOption("phone", "РўРµР»РµС„РѕРЅ") +
                     buildContactOption("email", "Email") +
                 "</div>" +
             "</div>" +
@@ -418,22 +400,22 @@
                 '<input class="chat-widget__field" id="chat-lead-contact" type="text" value="' + escapeAttr(state.leadForm.contactValue) + '" placeholder="' + escapeAttr(getContactPlaceholder()) + '">' +
             "</label>" +
             '<label class="chat-widget__field-group">' +
-                '<span class="chat-widget__field-label">Коротко о задаче</span>' +
-                '<textarea class="chat-widget__textarea" id="chat-lead-question" placeholder="Опишите сайт, задачу или вопрос">' + escapeHtml(state.leadForm.question) + "</textarea>" +
+                '<span class="chat-widget__field-label">РљРѕСЂРѕС‚РєРѕ Рѕ Р·Р°РґР°С‡Рµ</span>' +
+                '<textarea class="chat-widget__textarea" id="chat-lead-question" placeholder="РћРїРёС€РёС‚Рµ СЃР°Р№С‚, Р·Р°РґР°С‡Сѓ РёР»Рё РІРѕРїСЂРѕСЃ">' + escapeHtml(state.leadForm.question) + "</textarea>" +
             "</label>" +
             '<label class="chat-widget__field-group" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">' +
-                '<span class="chat-widget__field-label">Ваш сайт</span>' +
+                '<span class="chat-widget__field-label">Р’Р°С€ СЃР°Р№С‚</span>' +
                 '<input class="chat-widget__field" id="chat-lead-website" type="text" tabindex="-1" autocomplete="off" value="' + escapeAttr(state.leadForm.website) + '">' +
             "</label>" +
             '<label class="chat-widget__consent">' +
                 '<input id="chat-lead-consent" type="checkbox"' + (state.leadForm.consent ? " checked" : "") + ">" +
-                '<span>Согласен(а) на обработку персональных данных по <a href="privacy.html" target="_blank" rel="noopener noreferrer">политике конфиденциальности</a>.</span>' +
+                '<span>РЎРѕРіР»Р°СЃРµРЅ(Р°) РЅР° РѕР±СЂР°Р±РѕС‚РєСѓ РїРµСЂСЃРѕРЅР°Р»СЊРЅС‹С… РґР°РЅРЅС‹С… РїРѕ <a href="privacy.html" target="_blank" rel="noopener noreferrer">РїРѕР»РёС‚РёРєРµ РєРѕРЅС„РёРґРµРЅС†РёР°Р»СЊРЅРѕСЃС‚Рё</a>.</span>' +
             "</label>" +
             (state.leadError ? '<div class="chat-widget__error">' + escapeHtml(state.leadError) + "</div>" : "") +
             '<div class="chat-widget__form-actions">' +
-                '<button class="chat-widget__back" id="chat-lead-back" type="button">Вернуться к чату</button>' +
+                '<button class="chat-widget__back" id="chat-lead-back" type="button">Р’РµСЂРЅСѓС‚СЊСЃСЏ Рє С‡Р°С‚Сѓ</button>' +
                 '<button class="chat-widget__submit" id="chat-lead-submit" type="button"' + (state.loading ? " disabled" : "") + ">" +
-                    (state.loading ? "Отправка..." : "Отправить заявку") +
+                    (state.loading ? "РћС‚РїСЂР°РІРєР°..." : "РћС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ") +
                 "</button>" +
             "</div>";
 
@@ -544,8 +526,8 @@
                 }, CHAT_REQUEST_TIMEOUT);
             })
             .then(function (payload) {
-                addMessage("bot", payload.reply || "Спасибо! Я передам вопрос дальше.");
-                state.suggestions = payload.showLeadCta ? ["Оставить заявку"] : [];
+                addMessage("bot", payload.reply || "РЎРїР°СЃРёР±Рѕ! РЇ РїРµСЂРµРґР°Рј РІРѕРїСЂРѕСЃ РґР°Р»СЊС€Рµ.");
+                state.suggestions = payload.showLeadCta ? ["РћСЃС‚Р°РІРёС‚СЊ Р·Р°СЏРІРєСѓ"] : [];
                 if (payload.nextStep === "capture_lead") {
                     openLeadMode();
                 } else {
@@ -627,7 +609,7 @@
         }
 
         if (!state.apiConfigured) {
-            state.leadError = "Backend ещё не подключён. Пока используйте Telegram.";
+            state.leadError = "Backend РµС‰С‘ РЅРµ РїРѕРґРєР»СЋС‡С‘РЅ. РџРѕРєР° РёСЃРїРѕР»СЊР·СѓР№С‚Рµ Telegram.";
             render();
             return;
         }
@@ -675,7 +657,7 @@
             .catch(function (error) {
                 state.leadError = error && error.message
                     ? error.message
-                    : "Не удалось отправить заявку. Попробуйте ещё раз или напишите в Telegram.";
+                    : "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р· РёР»Рё РЅР°РїРёС€РёС‚Рµ РІ Telegram.";
                 render();
             })
             .finally(function () {
@@ -685,17 +667,17 @@
     }
 
     function validateLead() {
-        if (!state.leadForm.name.trim()) return "Укажите имя.";
-        if (!state.leadForm.contactValue.trim()) return "Укажите контакт для связи.";
-        if (!state.leadForm.question.trim()) return "Опишите вопрос или задачу.";
-        if (!state.leadForm.consent) return "Нужно согласие на обработку персональных данных.";
+        if (!state.leadForm.name.trim()) return "РЈРєР°Р¶РёС‚Рµ РёРјСЏ.";
+        if (!state.leadForm.contactValue.trim()) return "РЈРєР°Р¶РёС‚Рµ РєРѕРЅС‚Р°РєС‚ РґР»СЏ СЃРІСЏР·Рё.";
+        if (!state.leadForm.question.trim()) return "РћРїРёС€РёС‚Рµ РІРѕРїСЂРѕСЃ РёР»Рё Р·Р°РґР°С‡Сѓ.";
+        if (!state.leadForm.consent) return "РќСѓР¶РЅРѕ СЃРѕРіР»Р°СЃРёРµ РЅР° РѕР±СЂР°Р±РѕС‚РєСѓ РїРµСЂСЃРѕРЅР°Р»СЊРЅС‹С… РґР°РЅРЅС‹С….";
         return "";
     }
 
     function showFallbackMessage(reason) {
         var text = state.content.chatBot.fallbackMessage;
-        if (reason && reason.indexOf("время ожидания") !== -1) {
-            text = "Backend отвечает слишком долго. Попробуйте ещё раз через пару секунд или напишите в Telegram.";
+        if (reason && reason.indexOf("РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ") !== -1) {
+            text = "Backend РѕС‚РІРµС‡Р°РµС‚ СЃР»РёС€РєРѕРј РґРѕР»РіРѕ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р· С‡РµСЂРµР· РїР°СЂСѓ СЃРµРєСѓРЅРґ РёР»Рё РЅР°РїРёС€РёС‚Рµ РІ Telegram.";
         }
         addMessage("bot", text);
         state.suggestions = [];
@@ -731,7 +713,7 @@
             })
             .catch(function (error) {
                 if (error && error.name === "AbortError") {
-                    throw new Error("Превышено время ожидания ответа backend");
+                    throw new Error("РџСЂРµРІС‹С€РµРЅРѕ РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ РѕС‚РІРµС‚Р° backend");
                 }
                 throw error;
             })
@@ -750,17 +732,13 @@
 
     function getInputPlaceholder() {
         if (!state.apiConfigured) {
-            return "Подключите backend API или используйте Telegram";
+            return "РџРѕРґРєР»СЋС‡РёС‚Рµ backend API РёР»Рё РёСЃРїРѕР»СЊР·СѓР№С‚Рµ Telegram";
         }
-        return "Напишите вопрос о проекте";
-    }
-
-    function getQuickReplyPageSize() {
-        return 2;
+        return "РќР°РїРёС€РёС‚Рµ РІРѕРїСЂРѕСЃ Рѕ РїСЂРѕРµРєС‚Рµ";
     }
 
     function getContactLabel() {
-        if (state.leadForm.contactType === "phone") return "Телефон";
+        if (state.leadForm.contactType === "phone") return "РўРµР»РµС„РѕРЅ";
         if (state.leadForm.contactType === "email") return "Email";
         return "Telegram";
     }
@@ -812,3 +790,4 @@
         init();
     }
 })();
+
