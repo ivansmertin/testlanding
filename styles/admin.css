@@ -442,6 +442,71 @@ textarea.form-input {
 }
 
 /* ── Inbox ── */
+.crm-dashboard {
+    margin-top: 20px;
+}
+
+.crm-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.crm-kpi-card {
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 16px;
+    min-height: 94px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.crm-kpi-card--placeholder {
+    grid-column: 1 / -1;
+    min-height: 72px;
+    justify-content: center;
+}
+
+.crm-kpi-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+}
+
+.crm-kpi-value {
+    font-size: 28px;
+    line-height: 1;
+    color: var(--text-primary);
+}
+
+.crm-source-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.crm-source-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.crm-source-chip strong {
+    color: var(--text-primary);
+}
+
 .inbox-toolbar {
     display: flex;
     align-items: center;
@@ -493,6 +558,54 @@ textarea.form-input {
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 16px;
+}
+
+.crm-controls {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--surface-muted);
+    border: 1px solid var(--border);
+}
+
+.crm-control-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.crm-control-row + .crm-control-row {
+    margin-top: 12px;
+}
+
+.crm-field {
+    display: block;
+}
+
+.crm-field--wide {
+    grid-column: span 2;
+}
+
+.crm-field-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.crm-control-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.crm-results-meta {
+    font-size: 13px;
+    color: var(--text-secondary);
 }
 
 .inbox-filter {
@@ -579,6 +692,13 @@ textarea.form-input {
     margin-bottom: 8px;
 }
 
+.inbox-item-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
 .inbox-item-name {
     font-size: 14px;
     font-weight: 700;
@@ -595,6 +715,21 @@ textarea.form-input {
     margin-top: 8px;
     font-size: 12px;
     color: var(--text-tertiary);
+}
+
+.inbox-item-follow-up {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.inbox-item--priority-urgent {
+    border-color: #fecaca;
+}
+
+.inbox-item--priority-high {
+    border-color: #fde68a;
 }
 
 .inbox-badge {
@@ -628,6 +763,31 @@ textarea.form-input {
 .inbox-badge--spam {
     background: #fef2f2;
     color: #991b1b;
+}
+
+.inbox-badge--priority {
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.inbox-badge--priority-low {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.inbox-badge--priority-normal {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.inbox-badge--priority-high {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.inbox-badge--priority-urgent {
+    background: #fee2e2;
+    color: #b91c1c;
 }
 
 .inbox-empty {
@@ -670,6 +830,10 @@ textarea.form-input {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+}
+
+.inbox-detail-grid--form {
+    align-items: end;
 }
 
 .inbox-meta-label {
@@ -733,6 +897,32 @@ textarea.form-input {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+}
+
+.inbox-next-step {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.inbox-events {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inbox-event {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface-muted);
+    padding: 12px 14px;
+}
+
+.inbox-event-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .inbox-note {
@@ -853,6 +1043,20 @@ textarea.form-input {
     }
 
     .inbox-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .crm-kpis,
+    .crm-control-row {
+        grid-template-columns: 1fr;
+    }
+
+    .crm-field--wide {
+        grid-column: auto;
+    }
+
+    .crm-control-actions {
         flex-direction: column;
         align-items: stretch;
     }

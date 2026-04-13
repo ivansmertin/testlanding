@@ -197,6 +197,28 @@
                     <div class="editor-card">
                         <p class="mail-note">Сюда попадают обращения из чат-виджета. Для работы раздела нужен backend на VDS и заполненный <code>chat.apiBaseUrl</code> в <code>js/site-config.js</code>.</p>
 
+                        <div class="crm-dashboard">
+                            <div class="crm-kpis" id="crm-kpis">
+                                <div class="crm-kpi-card">
+                                    <span class="crm-kpi-label">Новые сегодня</span>
+                                    <strong class="crm-kpi-value">—</strong>
+                                </div>
+                                <div class="crm-kpi-card">
+                                    <span class="crm-kpi-label">Новые за неделю</span>
+                                    <strong class="crm-kpi-value">—</strong>
+                                </div>
+                                <div class="crm-kpi-card">
+                                    <span class="crm-kpi-label">Просроченные follow-up</span>
+                                    <strong class="crm-kpi-value">—</strong>
+                                </div>
+                                <div class="crm-kpi-card">
+                                    <span class="crm-kpi-label">Средний первый ответ</span>
+                                    <strong class="crm-kpi-value">—</strong>
+                                </div>
+                            </div>
+                            <div class="crm-source-breakdown" id="crm-source-breakdown"></div>
+                        </div>
+
                         <div class="inbox-toolbar">
                             <div class="inbox-status" id="inbox-status">Подключение к backend не настроено</div>
                             <div class="inbox-toolbar-actions">
@@ -210,6 +232,77 @@
                             <button class="inbox-filter" data-inbox-filter="closed" type="button">Закрытые</button>
                             <button class="inbox-filter" data-inbox-filter="spam" type="button">Спам</button>
                             <button class="inbox-filter" data-inbox-filter="all" type="button">Все</button>
+                        </div>
+
+                        <div class="crm-controls">
+                            <div class="crm-control-row">
+                                <label class="crm-field crm-field--wide">
+                                    <span class="crm-field-label">Поиск</span>
+                                    <input class="form-input" id="inbox-search-input" type="search" placeholder="Имя, контакт, вопрос, заметка">
+                                </label>
+                                <label class="crm-field">
+                                    <span class="crm-field-label">Приоритет</span>
+                                    <select class="form-input" id="inbox-priority-filter">
+                                        <option value="all">Все</option>
+                                        <option value="urgent">Срочный</option>
+                                        <option value="high">Высокий</option>
+                                        <option value="normal">Обычный</option>
+                                        <option value="low">Низкий</option>
+                                    </select>
+                                </label>
+                                <label class="crm-field">
+                                    <span class="crm-field-label">Источник</span>
+                                    <input class="form-input" id="inbox-source-filter" type="text" list="inbox-source-suggestions" placeholder="direct, telegram, google, cpc...">
+                                    <datalist id="inbox-source-suggestions">
+                                        <option value="all">Все</option>
+                                        <option value="direct">Direct</option>
+                                        <option value="telegram">Telegram</option>
+                                        <option value="vk">VK</option>
+                                        <option value="google">Google</option>
+                                        <option value="yandex">Yandex</option>
+                                        <option value="referral">Referral</option>
+                                        <option value="cpc">CPC</option>
+                                        <option value="social">Social</option>
+                                    </datalist>
+                                </label>
+                                <label class="crm-field">
+                                    <span class="crm-field-label">Сортировка</span>
+                                    <select class="form-input" id="inbox-sort-select">
+                                        <option value="newest">Сначала новые</option>
+                                        <option value="priority">По приоритету</option>
+                                        <option value="follow_up">По follow-up</option>
+                                        <option value="oldest">Сначала старые</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="crm-control-row">
+                                <label class="crm-field">
+                                    <span class="crm-field-label">Дата от</span>
+                                    <input class="form-input" id="inbox-date-from" type="date">
+                                </label>
+                                <label class="crm-field">
+                                    <span class="crm-field-label">Дата до</span>
+                                    <input class="form-input" id="inbox-date-to" type="date">
+                                </label>
+                                <label class="crm-field">
+                                    <span class="crm-field-label">Ответственный</span>
+                                    <input class="form-input" id="inbox-assigned-filter" type="text" placeholder="Например, ivansmertin">
+                                </label>
+                                <label class="crm-field">
+                                    <span class="crm-field-label">Напоминания</span>
+                                    <select class="form-input" id="inbox-reminder-filter">
+                                        <option value="all">Все</option>
+                                        <option value="with_reminder">С follow-up</option>
+                                        <option value="overdue">Просроченные</option>
+                                        <option value="none">Без follow-up</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="crm-control-actions">
+                                <button class="admin-btn admin-btn--primary admin-btn--sm" id="inbox-apply-filters" type="button">Применить</button>
+                                <button class="admin-btn admin-btn--outline admin-btn--sm" id="inbox-reset-filters" type="button">Сбросить</button>
+                                <div class="crm-results-meta" id="inbox-results-meta">Фильтры не применены</div>
+                            </div>
                         </div>
 
                         <div class="inbox-layout">

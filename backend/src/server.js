@@ -29,6 +29,8 @@ const COOKIE_SECURE = String(process.env.COOKIE_SECURE || "true") === "true";
 const COOKIE_SAME_SITE = process.env.COOKIE_SAME_SITE || "lax";
 const ADMIN_COOKIE_NAME = "snaf_admin_session";
 const LEAD_STATUSES = new Set(["new", "in_progress", "closed", "spam"]);
+const LEAD_PRIORITIES = new Set(["low", "normal", "high", "urgent"]);
+const CONTENT_DEFAULT_SUCCESS = "Спасибо! Заявка сохранена.";
 
 const app = express();
 const database = createDatabase(SQLITE_PATH);
@@ -36,6 +38,9 @@ const contentCache = createContentCache({
     sourceUrl: CONTENT_SOURCE_URL,
     refreshMs: CONTENT_REFRESH_MS
 });
+const sessionRateLimiter = createRateLimiter({ max: 20, windowMs: 10 * 60 * 1000 });
+const messageRateLimiter = createRateLimiter({ max: 60, windowMs: 10 * 60 * 1000 });
+const leadRateLimiter = createRateLimiter({ max: 12, windowMs: 60 * 60 * 1000 });
 
 app.use(cors({
     origin: function (origin, callback) {
@@ -57,9 +62,9 @@ app.get("/api/health", function (req, res) {
     });
 });
 
-app.post("/api/chat/session", function (req, res) {
+app.post("/api/chat/session", sessionRateLimiter, function (req, res) {
     const session = database.createSession({
-        sourcePage: safeString(req.body.sourcePage),
+        sourcePage: safeString(req.body.sourcePage || req.body.landingUrl),
         referrer: safeString(req.body.referrer),
         userAgent: safeString(req.body.userAgent || req.get("user-agent"))
     });
@@ -69,7 +74,7 @@ app.post("/api/chat/session", function (req, res) {
     });
 });
 
-app.post("/api/chat/message", function (req, res) {
+app.post("/api/chat/message", messageRateLimiter, function (req, res) {
     const sessionId = safeString(req.body.sessionId);
     const message = safeString(req.body.message);
 
@@ -107,12 +112,24 @@ app.post("/api/chat/message", function (req, res) {
     });
 });
 
-app.post("/api/chat/lead", async function (req, res) {
+app.post("/api/chat/lead", leadRateLimiter, async function (req, res) {
+    const content = contentCache.getContent() || {};
+    const successMessage = getSuccessMessage(content);
+    const honeypot = safeString(req.body.website);
     const name = safeString(req.body.name);
     const contactType = safeString(req.body.contactType);
     const contactValue = safeString(req.body.contactValue);
     const question = safeString(req.body.question);
     const consent = Boolean(req.body.consent);
+    const attribution = getAttributionPayload(req.body);
+
+    if (honeypot) {
+        res.status(202).json({
+            ignored: true,
+            message: successMessage
+        });
+        return;
+    }
 
     if (!name || !contactType || !contactValue || !question || !consent) {
         res.status(400).json({ error: "name, contactType, contactValue, question, and consent are required" });
@@ -122,8 +139,8 @@ app.post("/api/chat/lead", async function (req, res) {
     let sessionId = safeString(req.body.sessionId);
     if (!sessionId || !database.getSession(sessionId)) {
         sessionId = database.createSession({
-            sourcePage: safeString(req.body.sourcePage),
-            referrer: safeString(req.body.referrer),
+            sourcePage: attribution.sourcePage,
+            referrer: attribution.referrer,
             userAgent: safeString(req.get("user-agent"))
         }).id;
     }
@@ -136,23 +153,74 @@ app.post("/api/chat/lead", async function (req, res) {
             name: name,
             contactType: contactType,
             contactValue: contactValue,
-            question: question
+            question: question,
+            sourceChannel: attribution.sourceChannel
         },
         createdAt: new Date().toISOString()
     });
 
     const session = database.getSession(sessionId);
+    const duplicateLead = database.findDuplicateLead({
+        contactType: contactType,
+        contactValue: contactValue,
+        question: question,
+        windowHours: 12
+    });
+
+    if (duplicateLead && duplicateLead.sessionId !== sessionId) {
+        const mergedLead = database.registerDuplicateLeadAttempt(duplicateLead.id, {
+            actor: "chat-widget",
+            sessionId: sessionId,
+            sourcePage: attribution.sourcePage,
+            referrer: attribution.referrer,
+            userAgent: safeString(req.get("user-agent")),
+            contactType: contactType,
+            contactValue: contactValue,
+            question: question,
+            sourceChannel: attribution.sourceChannel,
+            utmSource: attribution.utmSource,
+            utmMedium: attribution.utmMedium,
+            utmCampaign: attribution.utmCampaign
+        });
+
+        try {
+            await sendTelegramLead({
+                botToken: process.env.TELEGRAM_BOT_TOKEN,
+                chatId: process.env.TELEGRAM_CHAT_ID,
+                lead: mergedLead,
+                duplicate: true,
+                adminAppUrl: buildLeadAdminUrl(mergedLead.id)
+            });
+            database.markLeadTelegramNotified(mergedLead.id);
+        } catch (error) {
+            console.error("[telegram]", error.message);
+        }
+
+        res.status(200).json({
+            leadId: mergedLead.id,
+            deduplicated: true,
+            message: successMessage
+        });
+        return;
+    }
+
     const lead = database.saveLead({
+        actor: "chat-widget",
         sessionId: sessionId,
         visitorName: name,
         contactType: contactType,
         contactValue: contactValue,
         question: question,
-        sourcePage: safeString(req.body.sourcePage),
-        referrer: safeString(req.body.referrer),
+        sourcePage: attribution.sourcePage,
+        referrer: attribution.referrer,
         userAgent: safeString(req.get("user-agent")),
         matchType: session ? session.matchType : "handoff",
-        status: "new"
+        status: "new",
+        priority: "normal",
+        sourceChannel: attribution.sourceChannel,
+        utmSource: attribution.utmSource,
+        utmMedium: attribution.utmMedium,
+        utmCampaign: attribution.utmCampaign
     });
 
     try {
@@ -160,17 +228,12 @@ app.post("/api/chat/lead", async function (req, res) {
             botToken: process.env.TELEGRAM_BOT_TOKEN,
             chatId: process.env.TELEGRAM_CHAT_ID,
             lead: lead,
-            adminAppUrl: ADMIN_APP_URL
+            adminAppUrl: buildLeadAdminUrl(lead.id)
         });
         database.markLeadTelegramNotified(lead.id);
     } catch (error) {
         console.error("[telegram]", error.message);
     }
-
-    const content = contentCache.getContent() || {};
-    const successMessage = content.chatBot && content.chatBot.successMessage
-        ? content.chatBot.successMessage
-        : "Спасибо! Заявка сохранена.";
 
     res.status(201).json({
         leadId: lead.id,
@@ -212,9 +275,22 @@ app.post("/api/admin/logout", function (req, res) {
     res.json({ ok: true });
 });
 
+app.get("/api/admin/dashboard", requireAdmin, function (req, res) {
+    res.json(database.getDashboardMetrics());
+});
+
 app.get("/api/admin/inbox", requireAdmin, function (req, res) {
-    const status = safeString(req.query.status || "all");
-    res.json(database.listLeads(status));
+    res.json(database.listLeads({
+        status: safeString(req.query.status || "all"),
+        q: safeString(req.query.q),
+        priority: safeString(req.query.priority || "all"),
+        assignedTo: safeString(req.query.assignedTo),
+        sourceChannel: safeString(req.query.sourceChannel || "all").toLowerCase(),
+        dateFrom: safeString(req.query.dateFrom),
+        dateTo: safeString(req.query.dateTo),
+        hasReminder: safeString(req.query.hasReminder || "all"),
+        sort: safeString(req.query.sort || "newest")
+    }));
 });
 
 app.get("/api/admin/inbox/:id", requireAdmin, function (req, res) {
@@ -229,16 +305,52 @@ app.get("/api/admin/inbox/:id", requireAdmin, function (req, res) {
 
 app.patch("/api/admin/inbox/:id", requireAdmin, function (req, res) {
     const nextStatus = req.body.status !== undefined ? safeString(req.body.status) : undefined;
+    const priority = req.body.priority !== undefined ? safeString(req.body.priority) : undefined;
     const internalNote = req.body.internalNote !== undefined ? safeString(req.body.internalNote) : undefined;
+    const assignedTo = req.body.assignedTo !== undefined ? safeString(req.body.assignedTo) : undefined;
+    const sourceChannel = req.body.sourceChannel !== undefined ? safeString(req.body.sourceChannel).toLowerCase() : undefined;
+    const closedReason = req.body.closedReason !== undefined ? safeString(req.body.closedReason) : undefined;
+    const nextFollowUpAt = req.body.nextFollowUpAt !== undefined ? normalizeDateInput(req.body.nextFollowUpAt) : undefined;
+    const lastContactAt = req.body.lastContactAt !== undefined ? normalizeDateInput(req.body.lastContactAt) : undefined;
+    const contactAttempts = req.body.contactAttempts !== undefined ? Number.parseInt(req.body.contactAttempts, 10) : undefined;
 
     if (nextStatus && !LEAD_STATUSES.has(nextStatus)) {
         res.status(400).json({ error: "Unknown lead status" });
         return;
     }
 
+    if (priority && !LEAD_PRIORITIES.has(priority)) {
+        res.status(400).json({ error: "Unknown lead priority" });
+        return;
+    }
+
+    if (req.body.nextFollowUpAt !== undefined && req.body.nextFollowUpAt !== "" && nextFollowUpAt === null) {
+        res.status(400).json({ error: "Invalid nextFollowUpAt" });
+        return;
+    }
+
+    if (req.body.lastContactAt !== undefined && req.body.lastContactAt !== "" && lastContactAt === null) {
+        res.status(400).json({ error: "Invalid lastContactAt" });
+        return;
+    }
+
+    if (contactAttempts !== undefined && (!Number.isInteger(contactAttempts) || contactAttempts < 0)) {
+        res.status(400).json({ error: "contactAttempts must be a non-negative integer" });
+        return;
+    }
+
     const updated = database.updateLead(req.params.id, {
         status: nextStatus,
-        internalNote: internalNote
+        priority: priority,
+        internalNote: internalNote,
+        assignedTo: assignedTo,
+        sourceChannel: sourceChannel,
+        closedReason: closedReason,
+        nextFollowUpAt: nextFollowUpAt,
+        lastContactAt: lastContactAt,
+        contactAttempts: contactAttempts
+    }, {
+        actor: req.admin.username || "admin"
     });
 
     if (!updated) {
@@ -349,4 +461,117 @@ function safeCompare(left, right) {
 
 function safeString(value) {
     return String(value || "").trim();
+}
+
+function getSuccessMessage(content) {
+    return content.chatBot && content.chatBot.successMessage
+        ? content.chatBot.successMessage
+        : CONTENT_DEFAULT_SUCCESS;
+}
+
+function getAttributionPayload(body) {
+    const sourcePage = safeString(body.sourcePage || body.landingUrl || "/");
+    const referrer = safeString(body.referrer);
+    const url = parseUrlLike(sourcePage);
+    const utmSource = safeString(body.utmSource || url.searchParams.get("utm_source"));
+    const utmMedium = safeString(body.utmMedium || url.searchParams.get("utm_medium"));
+    const utmCampaign = safeString(body.utmCampaign || url.searchParams.get("utm_campaign"));
+
+    return {
+        sourcePage: sourcePage,
+        referrer: referrer,
+        utmSource: utmSource,
+        utmMedium: utmMedium,
+        utmCampaign: utmCampaign,
+        sourceChannel: detectSourceChannel({
+            utmSource: utmSource,
+            utmMedium: utmMedium,
+            referrer: referrer
+        })
+    };
+}
+
+function detectSourceChannel(input) {
+    const utmSource = safeString(input.utmSource).toLowerCase();
+    const utmMedium = safeString(input.utmMedium).toLowerCase();
+    const referrer = safeString(input.referrer);
+
+    if (utmSource) {
+        return utmSource;
+    }
+
+    if (utmMedium) {
+        return utmMedium;
+    }
+
+    if (!referrer) {
+        return "direct";
+    }
+
+    try {
+        const host = new URL(referrer).hostname.toLowerCase();
+        if (host.indexOf("t.me") !== -1 || host.indexOf("telegram") !== -1) return "telegram";
+        if (host.indexOf("vk.com") !== -1) return "vk";
+        if (host.indexOf("google.") !== -1) return "google";
+        if (host.indexOf("yandex.") !== -1) return "yandex";
+        if (host.indexOf("bing.") !== -1) return "bing";
+        return host.replace(/^www\./, "") || "referral";
+    } catch (error) {
+        return "referral";
+    }
+}
+
+function parseUrlLike(value) {
+    try {
+        return new URL(value, "https://snafstudio.ru");
+    } catch (error) {
+        return new URL("https://snafstudio.ru/");
+    }
+}
+
+function buildLeadAdminUrl(leadId) {
+    if (!ADMIN_APP_URL) return "";
+
+    try {
+        const url = new URL(ADMIN_APP_URL);
+        url.searchParams.set("lead", leadId);
+        return url.toString();
+    } catch (error) {
+        return ADMIN_APP_URL + (ADMIN_APP_URL.indexOf("?") === -1 ? "?" : "&") + "lead=" + encodeURIComponent(leadId);
+    }
+}
+
+function normalizeDateInput(value) {
+    if (value === undefined) return undefined;
+    if (value === null || value === "") return null;
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+        return null;
+    }
+
+    return date.toISOString();
+}
+
+function createRateLimiter(options) {
+    const max = Number(options.max || 30);
+    const windowMs = Number(options.windowMs || 60000);
+    const store = new Map();
+
+    return function rateLimiter(req, res, next) {
+        const now = Date.now();
+        const key = safeString(req.ip || req.headers["x-forwarded-for"] || "unknown");
+        const existing = (store.get(key) || []).filter(function (timestamp) {
+            return now - timestamp < windowMs;
+        });
+
+        if (existing.length >= max) {
+            res.status(429).json({ error: "Too many requests. Please try again later." });
+            return;
+        }
+
+        existing.push(now);
+        store.set(key, existing);
+        next();
+    };
 }

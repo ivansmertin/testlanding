@@ -25,6 +25,7 @@
     var repoName = adminConfig.repoName || "";
     var contentPath = adminConfig.contentPath || "data/content.json";
     var backendBaseUrl = trimTrailingSlash(chatConfig.apiBaseUrl || "");
+    var preferredLeadId = getLeadIdFromUrl();
 
     var state = {
         token: null,
@@ -37,11 +38,22 @@
             enabled: Boolean(backendBaseUrl),
             authed: false,
             loading: false,
+            dashboardLoading: false,
             filter: "new",
+            query: "",
+            priority: "all",
+            sourceChannel: "all",
+            dateFrom: "",
+            dateTo: "",
+            assignedTo: "",
+            hasReminder: "all",
+            sort: "newest",
             items: [],
+            dashboard: null,
             counts: { all: 0 },
             activeLeadId: null,
             activeLead: null,
+            preferredLeadId: preferredLeadId,
             statusText: backendBaseUrl ? "Backend ещё не авторизован" : "Подключение к backend не настроено",
             statusType: backendBaseUrl ? "warn" : "error"
         }
@@ -66,13 +78,27 @@
     var sidebarOverlay = document.getElementById("sidebar-overlay");
     var inboxStatus = document.getElementById("inbox-status");
     var inboxRefreshBtn = document.getElementById("inbox-refresh-btn");
+    var crmKpis = document.getElementById("crm-kpis");
+    var crmSourceBreakdown = document.getElementById("crm-source-breakdown");
     var inboxList = document.getElementById("inbox-list");
     var inboxDetail = document.getElementById("inbox-detail");
     var inboxFilterButtons = document.querySelectorAll("[data-inbox-filter]");
+    var inboxSearchInput = document.getElementById("inbox-search-input");
+    var inboxPriorityFilter = document.getElementById("inbox-priority-filter");
+    var inboxSourceFilter = document.getElementById("inbox-source-filter");
+    var inboxSortSelect = document.getElementById("inbox-sort-select");
+    var inboxDateFrom = document.getElementById("inbox-date-from");
+    var inboxDateTo = document.getElementById("inbox-date-to");
+    var inboxAssignedFilter = document.getElementById("inbox-assigned-filter");
+    var inboxReminderFilter = document.getElementById("inbox-reminder-filter");
+    var inboxApplyFiltersBtn = document.getElementById("inbox-apply-filters");
+    var inboxResetFiltersBtn = document.getElementById("inbox-reset-filters");
+    var inboxResultsMeta = document.getElementById("inbox-results-meta");
 
     function init() {
         if (repoOwnerInput && repoOwner) repoOwnerInput.value = repoOwner;
         if (repoNameInput && repoName) repoNameInput.value = repoName;
+        syncFilterInputs();
 
         var savedToken = sessionStorage.getItem("snaf-admin-token");
         var savedUser = sessionStorage.getItem("snaf-admin-user");
@@ -112,6 +138,7 @@
         if (sidebarToggle) sidebarToggle.addEventListener("click", toggleSidebar);
         if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
         if (inboxRefreshBtn) inboxRefreshBtn.addEventListener("click", function () {
+            loadDashboard();
             loadInbox();
         });
 
@@ -127,6 +154,19 @@
                 state.backend.filter = button.getAttribute("data-inbox-filter");
                 renderInboxFilters();
                 loadInbox();
+            });
+        });
+
+        if (inboxApplyFiltersBtn) inboxApplyFiltersBtn.addEventListener("click", applyInboxFilters);
+        if (inboxResetFiltersBtn) inboxResetFiltersBtn.addEventListener("click", resetInboxFilters);
+
+        [inboxSearchInput, inboxPriorityFilter, inboxSourceFilter, inboxSortSelect, inboxDateFrom, inboxDateTo, inboxAssignedFilter, inboxReminderFilter].forEach(function (element) {
+            if (!element) return;
+            element.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    applyInboxFilters();
+                }
             });
         });
     }
@@ -199,14 +239,26 @@
         state.dirty = false;
         state.backend.authed = false;
         state.backend.items = [];
+        state.backend.dashboard = null;
         state.backend.counts = { all: 0 };
         state.backend.activeLeadId = null;
         state.backend.activeLead = null;
+        state.backend.filter = "new";
+        state.backend.query = "";
+        state.backend.priority = "all";
+        state.backend.sourceChannel = "all";
+        state.backend.dateFrom = "";
+        state.backend.dateTo = "";
+        state.backend.assignedTo = "";
+        state.backend.hasReminder = "all";
+        state.backend.sort = "newest";
+        state.backend.preferredLeadId = "";
         state.backend.statusText = state.backend.enabled ? "Backend ещё не авторизован" : "Подключение к backend не настроено";
         state.backend.statusType = state.backend.enabled ? "warn" : "error";
 
         authScreen.hidden = false;
         dashboard.hidden = true;
+        syncFilterInputs();
         renderInbox();
     }
 
@@ -571,7 +623,8 @@
 
         if (sectionId === "inbox") {
             renderInbox();
-            if (state.backend.enabled && state.backend.authed && !state.backend.loading) {
+            if (state.backend.enabled && state.backend.authed) {
+                loadDashboard();
                 loadInbox();
             }
         }
@@ -587,6 +640,42 @@
         if (!sidebar) return;
         sidebar.classList.remove("is-open");
         if (sidebarOverlay) sidebarOverlay.classList.remove("is-visible");
+    }
+
+    function syncFilterInputs() {
+        if (inboxSearchInput) inboxSearchInput.value = state.backend.query;
+        if (inboxPriorityFilter) inboxPriorityFilter.value = state.backend.priority;
+        if (inboxSourceFilter) inboxSourceFilter.value = state.backend.sourceChannel === "all" ? "" : state.backend.sourceChannel;
+        if (inboxSortSelect) inboxSortSelect.value = state.backend.sort;
+        if (inboxDateFrom) inboxDateFrom.value = state.backend.dateFrom;
+        if (inboxDateTo) inboxDateTo.value = state.backend.dateTo;
+        if (inboxAssignedFilter) inboxAssignedFilter.value = state.backend.assignedTo;
+        if (inboxReminderFilter) inboxReminderFilter.value = state.backend.hasReminder;
+    }
+
+    function applyInboxFilters() {
+        state.backend.query = inboxSearchInput ? inboxSearchInput.value.trim() : "";
+        state.backend.priority = inboxPriorityFilter ? inboxPriorityFilter.value : "all";
+        state.backend.sourceChannel = inboxSourceFilter && inboxSourceFilter.value.trim() ? inboxSourceFilter.value.trim().toLowerCase() : "all";
+        state.backend.sort = inboxSortSelect ? inboxSortSelect.value : "newest";
+        state.backend.dateFrom = inboxDateFrom ? inboxDateFrom.value : "";
+        state.backend.dateTo = inboxDateTo ? inboxDateTo.value : "";
+        state.backend.assignedTo = inboxAssignedFilter ? inboxAssignedFilter.value.trim() : "";
+        state.backend.hasReminder = inboxReminderFilter ? inboxReminderFilter.value : "all";
+        loadInbox();
+    }
+
+    function resetInboxFilters() {
+        state.backend.query = "";
+        state.backend.priority = "all";
+        state.backend.sourceChannel = "all";
+        state.backend.sort = "newest";
+        state.backend.dateFrom = "";
+        state.backend.dateTo = "";
+        state.backend.assignedTo = "";
+        state.backend.hasReminder = "all";
+        syncFilterInputs();
+        loadInbox();
     }
 
     function authenticateBackend(token) {
@@ -607,17 +696,42 @@
         })
             .then(function () {
                 state.backend.authed = true;
-                setBackendStatus("Inbox подключён", "ok");
-                return loadInbox();
+                setBackendStatus("Mini-CRM подключена", "ok");
+                return Promise.all([loadDashboard(), loadInbox()]);
             })
             .catch(function (error) {
                 state.backend.authed = false;
                 state.backend.items = [];
+                state.backend.dashboard = null;
                 state.backend.activeLead = null;
                 state.backend.activeLeadId = null;
                 setBackendStatus(error.message || "Не удалось авторизовать backend", "error");
                 renderInbox();
                 return false;
+            });
+    }
+
+    function loadDashboard() {
+        if (!state.backend.enabled || !state.backend.authed) {
+            renderInbox();
+            return Promise.resolve();
+        }
+
+        state.backend.dashboardLoading = true;
+        renderInbox();
+
+        return backendFetch("/api/admin/dashboard")
+            .then(function (payload) {
+                state.backend.dashboard = payload || null;
+                setBackendStatus("Mini-CRM connected", "ok");
+                renderInbox();
+            })
+            .catch(function (error) {
+                showToast(error.message || "Не удалось загрузить KPI", "error");
+            })
+            .finally(function () {
+                state.backend.dashboardLoading = false;
+                renderInbox();
             });
     }
 
@@ -635,28 +749,35 @@
         state.backend.loading = true;
         renderInbox();
 
-        return backendFetch("/api/admin/inbox?status=" + encodeURIComponent(state.backend.filter))
+        return backendFetch("/api/admin/inbox" + buildInboxQueryString())
             .then(function (payload) {
                 state.backend.items = payload.items || [];
                 state.backend.counts = payload.counts || { all: state.backend.items.length };
+                setBackendStatus("Mini-CRM connected", "ok");
 
                 if (!state.backend.items.length) {
                     state.backend.activeLeadId = null;
                     state.backend.activeLead = null;
+                    syncLeadUrl("");
                     renderInbox();
                     return null;
                 }
 
-                var hasActive = state.backend.activeLeadId && state.backend.items.some(function (item) {
-                    return item.id === state.backend.activeLeadId;
+                var nextActiveLeadId = state.backend.activeLeadId;
+                var preferredItem = state.backend.preferredLeadId && state.backend.items.find(function (item) {
+                    return item.id === state.backend.preferredLeadId;
                 });
 
-                if (!hasActive) {
-                    state.backend.activeLeadId = state.backend.items[0].id;
+                if (preferredItem) {
+                    nextActiveLeadId = preferredItem.id;
+                    state.backend.preferredLeadId = null;
+                } else if (!nextActiveLeadId || !state.backend.items.some(function (item) { return item.id === nextActiveLeadId; })) {
+                    nextActiveLeadId = state.backend.items[0].id;
                 }
 
+                state.backend.activeLeadId = nextActiveLeadId;
                 renderInbox();
-                return loadLeadDetail(state.backend.activeLeadId);
+                return loadLeadDetail(nextActiveLeadId);
             })
             .catch(function (error) {
                 setBackendStatus(error.message || "Не удалось загрузить заявки", "error");
@@ -672,6 +793,7 @@
         if (!leadId || !state.backend.authed) return Promise.resolve();
 
         state.backend.activeLeadId = leadId;
+        syncLeadUrl(leadId);
         renderInbox();
 
         return backendFetch("/api/admin/inbox/" + encodeURIComponent(leadId))
@@ -700,9 +822,9 @@
                 state.backend.items = state.backend.items.map(function (item) {
                     return updatedItem && item.id === updatedItem.id ? updatedItem : item;
                 });
-                showToast("Заявка обновлена", "success");
+                showToast("Карточка лида обновлена", "success");
                 renderInbox();
-                loadInbox();
+                return Promise.all([loadDashboard(), loadInbox()]);
             })
             .catch(function (error) {
                 showToast(error.message || "Не удалось обновить заявку", "error");
@@ -711,7 +833,9 @@
 
     function renderInbox() {
         renderInboxStatus();
+        renderCrmDashboard();
         renderInboxFilters();
+        renderInboxResultsMeta();
         renderInboxList();
         renderInboxDetail();
     }
@@ -722,12 +846,62 @@
         inboxStatus.className = "inbox-status inbox-status--" + state.backend.statusType;
     }
 
+    function renderCrmDashboard() {
+        if (crmKpis) {
+            if (!state.backend.enabled) {
+                crmKpis.innerHTML = buildKpiGridPlaceholder("KPI появятся после подключения backend.");
+            } else if (!state.backend.authed) {
+                crmKpis.innerHTML = buildKpiGridPlaceholder("Авторизуйтесь, чтобы увидеть KPI и воронку.");
+            } else if (state.backend.dashboardLoading && !state.backend.dashboard) {
+                crmKpis.innerHTML = buildKpiGridPlaceholder("Загружаю KPI…");
+            } else {
+                crmKpis.innerHTML = [
+                    buildKpiCard("Закрытые", getDashboardValue("closed")),
+                    buildKpiCard("Спам", getDashboardValue("spam")),
+                    buildKpiCard("Новые сегодня", getDashboardValue("newToday")),
+                    buildKpiCard("Новые за неделю", getDashboardValue("newThisWeek")),
+                    buildKpiCard("Просроченные follow-up", getDashboardValue("overdueFollowUps")),
+                    buildKpiCard("В работе", getDashboardValue("inProgress")),
+                    buildKpiCard("Высокий приоритет", getDashboardValue("highPriorityOpen")),
+                    buildKpiCard("Средний первый ответ", formatResponseTime(getDashboardValue("avgFirstResponseMinutes")))
+                ].join("");
+            }
+        }
+
+        if (crmSourceBreakdown) {
+            if (!state.backend.dashboard || !state.backend.dashboard.sourceBreakdown || !state.backend.dashboard.sourceBreakdown.length) {
+                crmSourceBreakdown.innerHTML = '<div class="crm-source-chip">Источники появятся после первых заявок</div>';
+            } else {
+                crmSourceBreakdown.innerHTML = state.backend.dashboard.sourceBreakdown.map(function (row) {
+                    return '<div class="crm-source-chip"><span>' + escapeHtml(row.sourceChannel || "unknown") + '</span><strong>' + escapeHtml(String(row.total)) + "</strong></div>";
+                }).join("");
+            }
+        }
+    }
+
     function renderInboxFilters() {
         inboxFilterButtons.forEach(function (button) {
             var filter = button.getAttribute("data-inbox-filter");
             button.classList.toggle("is-active", filter === state.backend.filter);
             button.textContent = getInboxFilterLabel(filter);
         });
+        syncFilterInputs();
+    }
+
+    function renderInboxResultsMeta() {
+        if (!inboxResultsMeta) return;
+
+        var parts = [];
+        if (state.backend.query) parts.push('поиск: "' + state.backend.query + '"');
+        if (state.backend.priority !== "all") parts.push("приоритет: " + getPriorityLabel(state.backend.priority));
+        if (state.backend.sourceChannel !== "all") parts.push("источник: " + state.backend.sourceChannel);
+        if (state.backend.assignedTo) parts.push("ответственный: " + state.backend.assignedTo);
+        if (state.backend.hasReminder !== "all") parts.push("напоминания: " + getReminderLabel(state.backend.hasReminder));
+        if (state.backend.dateFrom || state.backend.dateTo) parts.push("период: " + (state.backend.dateFrom || "…") + " - " + (state.backend.dateTo || "…"));
+
+        inboxResultsMeta.textContent = parts.length
+            ? "Активные фильтры: " + parts.join(" · ")
+            : "Показываются все заявки в выбранном статусе.";
     }
 
     function renderInboxList() {
@@ -744,24 +918,30 @@
         }
 
         if (state.backend.loading && !state.backend.items.length) {
-            inboxList.innerHTML = '<div class="inbox-empty">Загружаю заявки…</div>';
+            inboxList.innerHTML = '<div class="inbox-empty">Загружаю лиды и фильтры…</div>';
             return;
         }
 
         if (!state.backend.items.length) {
-            inboxList.innerHTML = '<div class="inbox-empty">В этой выборке пока нет заявок.</div>';
+            inboxList.innerHTML = '<div class="inbox-empty">По текущим фильтрам пока нет заявок.</div>';
             return;
         }
 
         inboxList.innerHTML = state.backend.items.map(function (item) {
+            var followUpText = getFollowUpBadgeText(item);
             return (
-                '<button class="inbox-item' + (item.id === state.backend.activeLeadId ? " is-active" : "") + '" type="button" data-lead-id="' + escapeAttr(item.id) + '">' +
+                '<button class="inbox-item inbox-item--priority-' + escapeAttr(item.priority || "normal") + (item.id === state.backend.activeLeadId ? " is-active" : "") + '" type="button" data-lead-id="' + escapeAttr(item.id) + '">' +
                     '<div class="inbox-item-top">' +
                         '<div class="inbox-item-name">' + escapeHtml(item.visitorName || "Без имени") + "</div>" +
-                        '<span class="inbox-badge inbox-badge--' + escapeAttr(item.status) + '">' + escapeHtml(getStatusLabel(item.status)) + "</span>" +
+                        '<div class="inbox-item-badges">' +
+                            '<span class="inbox-badge inbox-badge--' + escapeAttr(item.status) + '">' + escapeHtml(getStatusLabel(item.status)) + "</span>" +
+                            '<span class="inbox-badge inbox-badge--priority inbox-badge--priority-' + escapeAttr(item.priority || "normal") + '">' + escapeHtml(getPriorityLabel(item.priority)) + "</span>" +
+                        "</div>" +
                     "</div>" +
                     '<div class="inbox-item-question">' + escapeHtml(item.firstQuestion || "Вопрос не указан") + "</div>" +
                     '<div class="inbox-item-meta">' + escapeHtml(formatDate(item.createdAt)) + " · " + escapeHtml(formatContactSummary(item)) + "</div>" +
+                    '<div class="inbox-item-meta">' + escapeHtml("Источник: " + (item.sourceChannel || "unknown")) + (item.assignedTo ? " · " + escapeHtml("Ответственный: " + item.assignedTo) : "") + "</div>" +
+                    (followUpText ? '<div class="inbox-item-follow-up">' + escapeHtml(followUpText) + "</div>" : "") +
                 "</button>"
             );
         }).join("");
@@ -777,7 +957,7 @@
         if (!inboxDetail) return;
 
         if (!state.backend.enabled) {
-            inboxDetail.innerHTML = '<div class="inbox-empty">После подключения backend здесь будет карточка обращения, статус и история переписки.</div>';
+            inboxDetail.innerHTML = '<div class="inbox-empty">После подключения backend здесь будет карточка обращения, CRM-поля и таймлайн работы по лиду.</div>';
             return;
         }
 
@@ -787,11 +967,13 @@
         }
 
         if (!state.backend.activeLead) {
-            inboxDetail.innerHTML = '<div class="inbox-empty">Выберите заявку слева, чтобы открыть детали.</div>';
+            inboxDetail.innerHTML = '<div class="inbox-empty">Выберите заявку слева, чтобы открыть карточку, next step и историю действий.</div>';
             return;
         }
 
         var lead = state.backend.activeLead;
+        var followUpValue = formatDateTimeLocalValue(lead.nextFollowUpAt);
+        var lastContactValue = formatDateTimeLocalValue(lead.lastContactAt);
         inboxDetail.innerHTML =
             '<div class="inbox-detail-card">' +
                 '<div class="inbox-detail-title">' +
@@ -799,56 +981,64 @@
                         "<h3>" + escapeHtml(lead.visitorName || "Без имени") + "</h3>" +
                         '<div class="inbox-item-meta">' + escapeHtml(formatDate(lead.createdAt)) + "</div>" +
                     "</div>" +
-                    '<span class="inbox-badge inbox-badge--' + escapeAttr(lead.status) + '">' + escapeHtml(getStatusLabel(lead.status)) + "</span>" +
+                    '<div class="inbox-item-badges">' +
+                        '<span class="inbox-badge inbox-badge--' + escapeAttr(lead.status) + '">' + escapeHtml(getStatusLabel(lead.status)) + "</span>" +
+                        '<span class="inbox-badge inbox-badge--priority inbox-badge--priority-' + escapeAttr(lead.priority || "normal") + '">' + escapeHtml(getPriorityLabel(lead.priority)) + "</span>" +
+                    "</div>" +
                 "</div>" +
                 '<div class="inbox-detail-grid">' +
                     buildMetaBlock("Контакт", lead.contactValue || "Не указан") +
                     buildMetaBlock("Тип контакта", getContactTypeLabel(lead.contactType)) +
                     buildMetaBlock("Страница", lead.sourcePage || "/") +
                     buildMetaBlock("Матчинг", getMatchTypeLabel(lead.matchType)) +
+                    buildMetaBlock("Источник", lead.sourceChannel || "unknown") +
+                    buildMetaBlock("UTM", formatUtmSummary(lead)) +
+                    buildMetaBlock("Ответственный", lead.assignedTo || "Не назначен") +
+                    buildMetaBlock("Контактов", String(lead.contactAttempts || 0)) +
                 "</div>" +
             "</div>" +
             '<div class="inbox-detail-card">' +
-                '<div class="inbox-detail-title"><h3>Действия</h3></div>' +
+                '<div class="inbox-detail-title"><h3>Следующее действие</h3></div>' +
+                '<div class="inbox-next-step">' + escapeHtml(getNextStepText(lead)) + "</div>" +
+                '<div class="inbox-item-meta">' + escapeHtml(getFollowUpBadgeText(lead) || "Follow-up не назначен") + "</div>" +
+            "</div>" +
+            '<div class="inbox-detail-card">' +
+                '<div class="inbox-detail-title"><h3>Быстрые действия</h3></div>' +
                 '<div class="inbox-actions">' +
+                    buildLeadContactLink(lead) +
                     '<button class="admin-btn admin-btn--outline admin-btn--sm" type="button" data-lead-set-status="in_progress">В работу</button>' +
                     '<button class="admin-btn admin-btn--outline admin-btn--sm" type="button" data-lead-set-status="closed">Закрыть</button>' +
                     '<button class="admin-btn admin-btn--outline admin-btn--sm" type="button" data-lead-set-status="spam">Спам</button>' +
                     '<button class="admin-btn admin-btn--outline admin-btn--sm" type="button" id="copy-contact-btn">Скопировать контакт</button>' +
+                    '<button class="admin-btn admin-btn--outline admin-btn--sm" type="button" id="assign-to-me-btn">Назначить меня</button>' +
+                    '<button class="admin-btn admin-btn--outline admin-btn--sm" type="button" id="mark-contact-btn">Отметить контакт</button>' +
+                    '<button class="admin-btn admin-btn--outline admin-btn--sm" type="button" id="set-followup-tomorrow-btn">Follow-up на завтра</button>' +
                 "</div>" +
-            '</div>' +
+            "</div>" +
+            '<div class="inbox-detail-card">' +
+                '<div class="inbox-detail-title"><h3>CRM-поля</h3></div>' +
+                '<div class="inbox-detail-grid inbox-detail-grid--form">' +
+                    '<div class="form-group"><label>Ответственный</label><input class="form-input" id="lead-assigned-input" value="' + escapeAttr(lead.assignedTo || "") + '"></div>' +
+                    '<div class="form-group"><label>Приоритет</label><select class="form-input" id="lead-priority-input">' + buildPriorityOptions(lead.priority) + "</select></div>" +
+                    '<div class="form-group"><label>Источник</label><input class="form-input" id="lead-source-input" value="' + escapeAttr(lead.sourceChannel || "") + '"></div>' +
+                    '<div class="form-group"><label>Follow-up</label><input class="form-input" id="lead-followup-input" type="datetime-local" value="' + escapeAttr(followUpValue) + '"></div>' +
+                    '<div class="form-group"><label>Контактов</label><input class="form-input" id="lead-contact-attempts-input" type="number" min="0" step="1" value="' + escapeAttr(String(lead.contactAttempts || 0)) + '"></div>' +
+                    '<div class="form-group"><label>Последний контакт</label><input class="form-input" id="lead-last-contact-input" type="datetime-local" value="' + escapeAttr(lastContactValue) + '"></div>' +
+                '</div>' +
+                '<div class="form-group"><label>Причина закрытия</label><input class="form-input" id="lead-closed-reason-input" value="' + escapeAttr(lead.closedReason || "") + '" placeholder="Например, неактуально / нет ответа"></div>' +
+                '<div class="form-group"><label>Внутренняя заметка</label><textarea class="form-input inbox-note" id="lead-note-input">' + escapeHtml(lead.internalNote || "") + "</textarea></div>" +
+                '<div class="inbox-actions"><button class="admin-btn admin-btn--primary admin-btn--sm" type="button" id="save-crm-btn">Сохранить поля</button></div>' +
+            "</div>" +
             '<div class="inbox-detail-card">' +
                 '<div class="inbox-detail-title"><h3>Переписка</h3></div>' +
                 '<div class="inbox-transcript">' + renderTranscript(lead.transcript) + "</div>" +
             "</div>" +
             '<div class="inbox-detail-card">' +
-                '<div class="inbox-detail-title"><h3>Внутренняя заметка</h3></div>' +
-                '<div class="form-group">' +
-                    '<textarea class="form-input inbox-note" id="lead-note-input">' + escapeHtml(lead.internalNote || "") + "</textarea>" +
-                "</div>" +
-                '<button class="admin-btn admin-btn--primary admin-btn--sm" type="button" id="save-note-btn">Сохранить заметку</button>' +
+                '<div class="inbox-detail-title"><h3>Таймлайн</h3></div>' +
+                '<div class="inbox-events">' + renderLeadEvents(lead.events) + "</div>" +
             "</div>";
 
-        inboxDetail.querySelectorAll("[data-lead-set-status]").forEach(function (button) {
-            button.addEventListener("click", function () {
-                updateLead({
-                    status: button.getAttribute("data-lead-set-status")
-                });
-            });
-        });
-
-        var copyButton = inboxDetail.querySelector("#copy-contact-btn");
-        if (copyButton) copyButton.addEventListener("click", copyLeadContact);
-
-        var saveNoteButton = inboxDetail.querySelector("#save-note-btn");
-        if (saveNoteButton) {
-            saveNoteButton.addEventListener("click", function () {
-                var noteInput = inboxDetail.querySelector("#lead-note-input");
-                updateLead({
-                    internalNote: noteInput ? noteInput.value : ""
-                });
-            });
-        }
+        bindLeadDetailActions(lead);
     }
 
     function renderTranscript(transcript) {
@@ -910,10 +1100,10 @@
         })
             .then(function (response) {
                 if (!response.ok) {
-                    return response.json().then(function (payload) {
-                        throw new Error(payload.error || "Backend request failed");
-                    }).catch(function () {
-                        throw new Error("Backend request failed");
+                    return response.json().catch(function () {
+                        return null;
+                    }).then(function (payload) {
+                        throw new Error(payload && payload.error ? payload.error : "Backend request failed");
                     });
                 }
                 return response.json();
@@ -935,6 +1125,103 @@
 
     function buildBackendUrl(path) {
         return backendBaseUrl + (path.charAt(0) === "/" ? path : "/" + path);
+    }
+
+    function buildInboxQueryString() {
+        var params = new URLSearchParams();
+        params.set("status", state.backend.filter);
+        params.set("sort", state.backend.sort);
+
+        if (state.backend.query) params.set("q", state.backend.query);
+        if (state.backend.priority && state.backend.priority !== "all") params.set("priority", state.backend.priority);
+        if (state.backend.sourceChannel && state.backend.sourceChannel !== "all") params.set("sourceChannel", state.backend.sourceChannel);
+        if (state.backend.dateFrom) params.set("dateFrom", state.backend.dateFrom);
+        if (state.backend.dateTo) params.set("dateTo", state.backend.dateTo);
+        if (state.backend.assignedTo) params.set("assignedTo", state.backend.assignedTo);
+        if (state.backend.hasReminder && state.backend.hasReminder !== "all") params.set("hasReminder", state.backend.hasReminder);
+
+        return "?" + params.toString();
+    }
+
+    function syncLeadUrl(leadId) {
+        if (!window.history || !window.history.replaceState) return;
+
+        var url = new URL(window.location.href);
+        if (leadId) {
+            url.searchParams.set("lead", leadId);
+        } else {
+            url.searchParams.delete("lead");
+        }
+        window.history.replaceState({}, "", url.toString());
+    }
+
+    function bindLeadDetailActions(lead) {
+        inboxDetail.querySelectorAll("[data-lead-set-status]").forEach(function (button) {
+            button.addEventListener("click", function () {
+                var status = button.getAttribute("data-lead-set-status");
+                var closedReasonInput = inboxDetail.querySelector("#lead-closed-reason-input");
+                updateLead({
+                    status: status,
+                    closedReason: closedReasonInput ? closedReasonInput.value.trim() : lead.closedReason || ""
+                });
+            });
+        });
+
+        var copyButton = inboxDetail.querySelector("#copy-contact-btn");
+        if (copyButton) copyButton.addEventListener("click", copyLeadContact);
+
+        var assignButton = inboxDetail.querySelector("#assign-to-me-btn");
+        if (assignButton) {
+            assignButton.addEventListener("click", function () {
+                updateLead({
+                    assignedTo: state.username || ""
+                });
+            });
+        }
+
+        var markContactButton = inboxDetail.querySelector("#mark-contact-btn");
+        if (markContactButton) {
+            markContactButton.addEventListener("click", function () {
+                updateLead({
+                    status: lead.status === "new" ? "in_progress" : lead.status,
+                    contactAttempts: Number(lead.contactAttempts || 0) + 1,
+                    lastContactAt: new Date().toISOString()
+                });
+            });
+        }
+
+        var followUpTomorrowButton = inboxDetail.querySelector("#set-followup-tomorrow-btn");
+        if (followUpTomorrowButton) {
+            followUpTomorrowButton.addEventListener("click", function () {
+                updateLead({
+                    nextFollowUpAt: getTomorrowFollowUpIso()
+                });
+            });
+        }
+
+        var saveCrmButton = inboxDetail.querySelector("#save-crm-btn");
+        if (saveCrmButton) {
+            saveCrmButton.addEventListener("click", function () {
+                var assignedInput = inboxDetail.querySelector("#lead-assigned-input");
+                var priorityInput = inboxDetail.querySelector("#lead-priority-input");
+                var sourceInput = inboxDetail.querySelector("#lead-source-input");
+                var followupInput = inboxDetail.querySelector("#lead-followup-input");
+                var contactAttemptsInput = inboxDetail.querySelector("#lead-contact-attempts-input");
+                var lastContactInput = inboxDetail.querySelector("#lead-last-contact-input");
+                var closedReasonInput = inboxDetail.querySelector("#lead-closed-reason-input");
+                var noteInput = inboxDetail.querySelector("#lead-note-input");
+                updateLead({
+                    assignedTo: assignedInput ? assignedInput.value.trim() : "",
+                    priority: priorityInput ? priorityInput.value : "normal",
+                    sourceChannel: sourceInput ? sourceInput.value.trim().toLowerCase() : "",
+                    nextFollowUpAt: followupInput && followupInput.value ? new Date(followupInput.value).toISOString() : "",
+                    contactAttempts: contactAttemptsInput ? Number(contactAttemptsInput.value || 0) : 0,
+                    lastContactAt: lastContactInput && lastContactInput.value ? new Date(lastContactInput.value).toISOString() : "",
+                    closedReason: closedReasonInput ? closedReasonInput.value.trim() : "",
+                    internalNote: noteInput ? noteInput.value : ""
+                });
+            });
+        }
     }
 
     function setBackendStatus(text, type) {
@@ -991,6 +1278,35 @@
             : [];
     }
 
+    function getLeadIdFromUrl() {
+        try {
+            return new URL(window.location.href).searchParams.get("lead") || "";
+        } catch (error) {
+            return "";
+        }
+    }
+
+    function buildKpiGridPlaceholder(message) {
+        return '<div class="crm-kpi-card crm-kpi-card--placeholder"><span class="crm-kpi-label">' + escapeHtml(message) + "</span></div>";
+    }
+
+    function buildKpiCard(label, value) {
+        return '<div class="crm-kpi-card"><span class="crm-kpi-label">' + escapeHtml(label) + '</span><strong class="crm-kpi-value">' + escapeHtml(String(value)) + "</strong></div>";
+    }
+
+    function getDashboardValue(key) {
+        if (!state.backend.dashboard || state.backend.dashboard[key] === undefined || state.backend.dashboard[key] === null) {
+            return "—";
+        }
+        return state.backend.dashboard[key];
+    }
+
+    function formatResponseTime(value) {
+        if (value === "—") return value;
+        if (value === null || value === undefined || Number.isNaN(Number(value))) return "—";
+        return Number(value) + " мин";
+    }
+
     function getInboxFilterLabel(filter) {
         var labels = {
             new: "Новые",
@@ -1001,6 +1317,25 @@
         };
         var count = state.backend.counts[filter];
         return labels[filter] + (count !== undefined ? " (" + count + ")" : "");
+    }
+
+    function getPriorityLabel(priority) {
+        var labels = {
+            low: "Низкий",
+            normal: "Обычный",
+            high: "Высокий",
+            urgent: "Срочный"
+        };
+        return labels[priority] || "Обычный";
+    }
+
+    function getReminderLabel(value) {
+        var labels = {
+            with_reminder: "есть follow-up",
+            overdue: "просроченные",
+            none: "без follow-up"
+        };
+        return labels[value] || value || "все";
     }
 
     function getStatusLabel(status) {
@@ -1057,6 +1392,94 @@
         );
     }
 
+    function buildLeadContactLink(lead) {
+        if (lead.contactType === "phone" && lead.contactValue) {
+            return '<a class="admin-btn admin-btn--outline admin-btn--sm" href="' + escapeAttr(normalizePhoneHref(lead.contactValue)) + '">Перезвонить</a>';
+        }
+        if (lead.contactType === "email" && lead.contactValue) {
+            return '<a class="admin-btn admin-btn--outline admin-btn--sm" href="mailto:' + escapeAttr(lead.contactValue) + '">Написать email</a>';
+        }
+        if (lead.contactType === "telegram" && lead.contactValue) {
+            return '<a class="admin-btn admin-btn--outline admin-btn--sm" href="' + escapeAttr(normalizeTelegramHref(lead.contactValue)) + '" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>';
+        }
+        return "";
+    }
+
+    function buildPriorityOptions(selected) {
+        return ["urgent", "high", "normal", "low"].map(function (priority) {
+            return '<option value="' + priority + '"' + (priority === (selected || "normal") ? " selected" : "") + '>' + getPriorityLabel(priority) + "</option>";
+        }).join("");
+    }
+
+    function renderLeadEvents(events) {
+        if (!Array.isArray(events) || !events.length) {
+            return '<div class="inbox-empty">События появятся после первых действий по лиду.</div>';
+        }
+
+        return events.map(function (event) {
+            return (
+                '<div class="inbox-event">' +
+                    '<div class="inbox-event-top">' +
+                        '<strong>' + escapeHtml(event.summary || event.type) + "</strong>" +
+                        '<span>' + escapeHtml(formatDate(event.createdAt)) + "</span>" +
+                    "</div>" +
+                    '<div class="inbox-item-meta">' + escapeHtml("Автор: " + (event.actor || "system")) + "</div>" +
+                "</div>"
+            );
+        }).join("");
+    }
+
+    function formatUtmSummary(lead) {
+        var parts = [lead.utmSource, lead.utmMedium, lead.utmCampaign].filter(Boolean);
+        return parts.length ? parts.join(" / ") : "—";
+    }
+
+    function getNextStepText(lead) {
+        if (lead.status === "new") return "Оценить лид, назначить ответственного и сделать первый контакт.";
+        if (lead.status === "in_progress") return lead.nextFollowUpAt ? "Проверить follow-up и обновить статус после контакта." : "Зафиксировать следующий контакт или закрыть лид.";
+        if (lead.status === "closed") return lead.closedReason ? "Лид закрыт: " + lead.closedReason : "Лид закрыт. При необходимости можно переоткрыть вручную.";
+        return "Лид помечен как спам.";
+    }
+
+    function getFollowUpBadgeText(item) {
+        if (!item || !item.nextFollowUpAt) return "";
+
+        var timestamp = new Date(item.nextFollowUpAt).getTime();
+        if (Number.isNaN(timestamp)) return "Follow-up: " + item.nextFollowUpAt;
+        if (timestamp < Date.now() && item.status !== "closed" && item.status !== "spam") {
+            return "Просрочен follow-up: " + formatDate(item.nextFollowUpAt);
+        }
+        return "Follow-up: " + formatDate(item.nextFollowUpAt);
+    }
+
+    function formatDateTimeLocalValue(dateString) {
+        if (!dateString) return "";
+        var date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) return "";
+        var pad = function (value) { return String(value).padStart(2, "0"); };
+        return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate()) + "T" + pad(date.getHours()) + ":" + pad(date.getMinutes());
+    }
+
+    function getTomorrowFollowUpIso() {
+        var next = new Date();
+        next.setDate(next.getDate() + 1);
+        next.setHours(10, 0, 0, 0);
+        return next.toISOString();
+    }
+
+    function normalizePhoneHref(value) {
+        var digits = String(value || "").replace(/[^\d+]/g, "");
+        return digits.indexOf("tel:") === 0 ? digits : "tel:" + digits;
+    }
+
+    function normalizeTelegramHref(value) {
+        var trimmed = String(value || "").trim();
+        if (!trimmed) return "#";
+        if (trimmed.indexOf("http://") === 0 || trimmed.indexOf("https://") === 0) return trimmed;
+        if (trimmed.charAt(0) === "@") return "https://t.me/" + trimmed.slice(1);
+        return "https://t.me/" + trimmed.replace(/^t\.me\//, "");
+    }
+
     function getTranscriptRole(entry) {
         if (!entry || !entry.role) return "system";
         if (entry.role === "user" || entry.role === "bot") return entry.role;
@@ -1074,6 +1497,9 @@
         if (!entry) return "";
         if (entry.type === "lead_submission" && entry.payload) {
             return "Заявка отправлена. Контакт: " + (entry.payload.contactType || "—") + " — " + (entry.payload.contactValue || "—");
+        }
+        if (entry.type === "duplicate_submission") {
+            return "Повторная заявка объединена с текущей карточкой.";
         }
         return entry.text || "";
     }

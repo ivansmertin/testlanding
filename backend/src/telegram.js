@@ -10,19 +10,35 @@ async function sendTelegramLead(options) {
         return false;
     }
 
-    const lead = options.lead;
+    const lead = options.lead || {};
+    const utmSummary = [lead.utmSource, lead.utmMedium, lead.utmCampaign]
+        .filter(Boolean)
+        .join(" / ");
+    const heading = options.duplicate
+        ? "<b>Повторная заявка с сайта</b>"
+        : "<b>Новая заявка с сайта</b>";
     const lines = [
-        "<b>Новая заявка с сайта</b>",
+        heading,
         "",
         "<b>Имя:</b> " + escapeHtml(lead.visitorName || "Не указано"),
         "<b>Контакт:</b> " + escapeHtml((lead.contactType || "—") + " — " + (lead.contactValue || "—")),
         "<b>Вопрос:</b> " + escapeHtml(lead.firstQuestion || "Не указан"),
-        "<b>Страница:</b> " + escapeHtml(lead.sourcePage || "/"),
+        "<b>Приоритет:</b> " + escapeHtml(getPriorityLabel(lead.priority)),
+        "<b>Источник:</b> " + escapeHtml(lead.sourceChannel || "unknown"),
+        "<b>Landing:</b> " + escapeHtml(lead.sourcePage || "/"),
         "<b>Время:</b> " + escapeHtml(lead.createdAt || new Date().toISOString())
     ];
 
+    if (lead.referrer) {
+        lines.push("<b>Referrer:</b> " + escapeHtml(lead.referrer));
+    }
+
+    if (utmSummary) {
+        lines.push("<b>UTM:</b> " + escapeHtml(utmSummary));
+    }
+
     if (options.adminAppUrl) {
-        lines.push("", "<a href=\"" + escapeHtml(options.adminAppUrl) + "\">Открыть админку</a>");
+        lines.push("", "<a href=\"" + escapeHtml(options.adminAppUrl) + "\">Открыть заявку в админке</a>");
     }
 
     const response = await fetch("https://api.telegram.org/bot" + options.botToken + "/sendMessage", {
@@ -43,6 +59,17 @@ async function sendTelegramLead(options) {
     }
 
     return true;
+}
+
+function getPriorityLabel(priority) {
+    const labels = {
+        low: "низкий",
+        normal: "обычный",
+        high: "высокий",
+        urgent: "срочный"
+    };
+
+    return labels[String(priority || "").toLowerCase()] || "обычный";
 }
 
 module.exports = {

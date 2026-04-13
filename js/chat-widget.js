@@ -44,7 +44,8 @@
             contactType: "telegram",
             contactValue: "",
             question: "",
-            consent: false
+            consent: false,
+            website: ""
         }
     };
 
@@ -382,6 +383,10 @@
                 '<span class="chat-widget__field-label">Коротко о задаче</span>' +
                 '<textarea class="chat-widget__textarea" id="chat-lead-question" placeholder="Опишите сайт, задачу или вопрос">' + escapeHtml(state.leadForm.question) + "</textarea>" +
             "</label>" +
+            '<label class="chat-widget__field-group" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">' +
+                '<span class="chat-widget__field-label">Ваш сайт</span>' +
+                '<input class="chat-widget__field" id="chat-lead-website" type="text" tabindex="-1" autocomplete="off" value="' + escapeAttr(state.leadForm.website) + '">' +
+            "</label>" +
             '<label class="chat-widget__consent">' +
                 '<input id="chat-lead-consent" type="checkbox"' + (state.leadForm.consent ? " checked" : "") + ">" +
                 '<span>Согласен(а) на обработку персональных данных по <a href="privacy.html" target="_blank" rel="noopener noreferrer">политике конфиденциальности</a>.</span>' +
@@ -409,6 +414,7 @@
         var nameInput = scope.querySelector("#chat-lead-name");
         var contactInput = scope.querySelector("#chat-lead-contact");
         var questionInput = scope.querySelector("#chat-lead-question");
+        var websiteInput = scope.querySelector("#chat-lead-website");
         var consentInput = scope.querySelector("#chat-lead-consent");
         var submitButton = scope.querySelector("#chat-lead-submit");
         var backButton = scope.querySelector("#chat-lead-back");
@@ -435,6 +441,12 @@
         if (questionInput) {
             questionInput.addEventListener("input", function () {
                 state.leadForm.question = questionInput.value;
+            });
+        }
+
+        if (websiteInput) {
+            websiteInput.addEventListener("input", function () {
+                state.leadForm.website = websiteInput.value;
             });
         }
 
@@ -485,7 +497,11 @@
                         sessionId: state.sessionId,
                         message: message,
                         sourcePage: window.location.pathname + window.location.search,
-                        referrer: document.referrer || ""
+                        referrer: document.referrer || "",
+                        landingUrl: window.location.href,
+                        utmSource: getUtmValue("utm_source"),
+                        utmMedium: getUtmValue("utm_medium"),
+                        utmCampaign: getUtmValue("utm_campaign")
                     })
                 }, CHAT_REQUEST_TIMEOUT);
             })
@@ -526,7 +542,11 @@
             body: JSON.stringify({
                 sourcePage: window.location.pathname + window.location.search,
                 referrer: document.referrer || "",
-                userAgent: navigator.userAgent
+                userAgent: navigator.userAgent,
+                landingUrl: window.location.href,
+                utmSource: getUtmValue("utm_source"),
+                utmMedium: getUtmValue("utm_medium"),
+                utmCampaign: getUtmValue("utm_campaign")
             })
         }, 8000)
             .then(function (payload) {
@@ -590,7 +610,12 @@
                         question: state.leadForm.question.trim(),
                         consent: state.leadForm.consent,
                         sourcePage: window.location.pathname + window.location.search,
-                        referrer: document.referrer || ""
+                        referrer: document.referrer || "",
+                        landingUrl: window.location.href,
+                        utmSource: getUtmValue("utm_source"),
+                        utmMedium: getUtmValue("utm_medium"),
+                        utmCampaign: getUtmValue("utm_campaign"),
+                        website: state.leadForm.website
                     })
                 }, CHAT_REQUEST_TIMEOUT);
             })
@@ -604,7 +629,8 @@
                     contactType: "telegram",
                     contactValue: "",
                     question: "",
-                    consent: false
+                    consent: false,
+                    website: ""
                 };
                 render();
             })
@@ -705,6 +731,14 @@
 
     function buildApiUrl(path) {
         return apiBaseUrl + path;
+    }
+
+    function getUtmValue(name) {
+        try {
+            return new URL(window.location.href).searchParams.get(name) || "";
+        } catch (error) {
+            return "";
+        }
     }
 
     function syncCookieOffset() {
