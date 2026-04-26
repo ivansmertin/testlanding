@@ -5,8 +5,12 @@
 }
 
 html {
-    scroll-padding-top: var(--header-offset);
+    scroll-padding-top: calc(var(--header-offset, 80px) + 24px);
     scroll-behavior: smooth;
+}
+
+a, button, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -45,8 +49,8 @@ img {
     box-shadow: 0 0 0 6px var(--accent-overlay-12);
 }
 
-section[id] {
-    scroll-margin-top: var(--header-offset);
+[id] {
+    scroll-margin-top: calc(var(--header-offset, 80px) + 24px);
 }
 
 .container {
@@ -109,6 +113,9 @@ main {
 
 @supports (text-wrap: balance) {
     :where(
+        h1,
+        h2,
+        h3,
         .hero-title,
         .section-title,
         .author-name,

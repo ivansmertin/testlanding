@@ -111,6 +111,10 @@
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.28),
         0 10px 24px var(--shadow-color-04);
+    transition:
+        background var(--motion-duration-base) var(--motion-ease, ease),
+        border-color var(--motion-duration-base) var(--motion-ease, ease),
+        color var(--motion-duration-base) var(--motion-ease, ease);
 }
 
 .hero-actions {
@@ -141,6 +145,11 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.36),
         0 16px 32px var(--shadow-color-05);
     backdrop-filter: blur(14px);
+    transition:
+        transform var(--motion-duration-base) var(--motion-ease, ease),
+        border-color var(--motion-duration-base) var(--motion-ease, ease),
+        box-shadow var(--motion-duration-base) var(--motion-ease, ease);
+    will-change: transform;
 }
 
 .hero-code-card {
@@ -269,6 +278,30 @@
         transform: none;
         border-color: var(--accent-overlay-22);
         box-shadow: var(--shadow-main);
+    }
+
+    .hero-code-card:hover,
+    .hero-mini-card:hover {
+        transform: translateY(-2px);
+        animation-play-state: paused;
+        border-color: var(--accent-overlay-22);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.42),
+            0 22px 40px var(--shadow-color-05),
+            0 0 0 1px var(--accent-overlay-12);
+    }
+
+    .hero-mini-card--accent:hover {
+        border-color: transparent;
+        box-shadow:
+            var(--shadow-accent),
+            0 22px 44px var(--shadow-color-05);
+    }
+
+    .hero-point:hover {
+        background: linear-gradient(180deg, var(--accent-overlay-06) 0%, var(--accent-overlay-10) 100%);
+        border-color: var(--accent-overlay-18);
+        color: var(--accent-hover);
     }
 }
 

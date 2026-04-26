@@ -328,12 +328,21 @@
     }
 
     .nav-link.is-current,
-    .nav-link.is-highlighted,
-    .nav-link:active {
+    .nav-link.is-highlighted {
         color: var(--accent) !important;
         background: var(--background-soft) !important;
         box-shadow: none !important;
         font-weight: 700;
+    }
+
+    .nav-link:active {
+        color: var(--accent) !important;
+        background: var(--accent-overlay-12, var(--background-soft)) !important;
+        transform: scale(0.97);
+        transition:
+            background-color 0.08s ease,
+            transform 0.08s ease,
+            color 0.08s ease;
     }
 
     .mobile-menu-meta {
@@ -360,12 +369,24 @@
         padding: 0 18px;
     }
 
+    .header {
+        padding: 8px 0 6px;
+    }
+
+    .header-inner {
+        padding: 8px 12px;
+    }
+
+    .logo img {
+        width: 122px;
+    }
+
     .hero-section {
         padding: 12px 0 40px;
     }
 
     .hero-card {
-        padding: 28px 22px;
+        padding: 22px 18px;
         border-radius: var(--radius-card);
     }
 
@@ -378,8 +399,45 @@
         line-height: 1.66;
     }
 
+    .hero-visual {
+        gap: 12px;
+    }
+
+    .hero-code-card {
+        padding: 16px 16px 14px;
+    }
+
+    .hero-code-top {
+        margin-bottom: 12px;
+    }
+
+    .hero-code-lines {
+        gap: 10px;
+    }
+
     .hero-stack {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .hero-mini-card {
+        min-height: 0;
+        padding: 16px 18px;
+    }
+
+    .hero-mini-label {
+        margin-bottom: 6px;
+        font-size: 11px;
+    }
+
+    .hero-mini-card strong {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .hero-mini-card p {
+        font-size: 13px;
+        line-height: 1.5;
     }
 
     .hero-actions,
@@ -416,8 +474,13 @@
     }
 
     .author-photo {
-        height: clamp(300px, 72vw, 420px);
+        height: clamp(280px, 60vw, 380px);
         object-position: center 10%;
+    }
+
+    .author-info {
+        padding: 20px;
+        gap: 12px;
     }
 
     .stat-wide {
@@ -425,8 +488,8 @@
     }
 
     .stat-card {
-        min-height: 180px;
-        padding: 26px;
+        min-height: 172px;
+        padding: 22px;
     }
 
     .benefits-header {
@@ -440,7 +503,7 @@
     }
 
     .slider-controls {
-        padding-top: 0;
+        display: none;
     }
 
     .carousel-card {
@@ -449,25 +512,27 @@
     }
 
     .faq-question {
-        padding: 22px;
+        padding: 18px 20px;
     }
 
     .faq-answer p {
-        padding: 0 22px 24px;
+        padding: 0 20px 20px;
     }
 
     .cta-bottom {
-        padding: 34px 24px;
+        padding: 32px 20px;
         border-radius: var(--radius-lg);
-        margin-top: 40px;
+        margin-top: 32px;
     }
 
     .cta-bottom-title {
         font-size: 30px;
+        margin-bottom: var(--space-3, 12px);
     }
 
     .cta-bottom-text {
         font-size: 16px;
+        margin-bottom: var(--space-5, 20px);
     }
 
     .process-section {
@@ -480,19 +545,45 @@
 
     .process-steps {
         grid-template-columns: 1fr;
-        margin-top: 32px;
+        gap: 14px;
+        margin-top: 28px;
+    }
+
+    .process-step {
+        padding: 20px;
+    }
+
+    .process-step-number {
+        width: 38px;
+        height: 38px;
+        font-size: 12px;
+        margin-bottom: 14px;
+    }
+
+    .process-step-title {
+        margin-bottom: 8px;
     }
 
     .pricing-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .pricing-card {
-        padding: 30px;
+        padding: 24px 20px;
+        gap: 14px;
+    }
+
+    .pricing-card-header {
+        gap: var(--space-2, 10px);
     }
 
     .pricing-price {
         font-size: 36px;
+    }
+
+    .pricing-list {
+        gap: 10px;
     }
 
     .pricing-header .section-title {
@@ -512,7 +603,7 @@
     }
 
     .footer-card {
-        padding: 32px 24px;
+        padding: 28px 20px;
         border-radius: var(--radius-lg);
         gap: 28px;
     }
@@ -534,6 +625,19 @@
         right: 8px;
     }
 
+    .header-inner {
+        padding: 7px 10px;
+    }
+
+    .logo img {
+        width: 114px;
+    }
+
+    .burger-btn {
+        width: 42px;
+        height: 42px;
+    }
+
     .hero-title {
         font-size: 35px;
     }
@@ -553,7 +657,7 @@
     }
 
     .author-photo {
-        height: clamp(260px, 78vw, 340px);
+        height: clamp(220px, 56vw, 280px);
         object-position: center 9%;
     }
 
@@ -573,15 +677,15 @@
 
 @media (max-width: 430px) {
     .header-inner {
-        padding: 9px 10px;
+        padding: 6px 9px;
     }
 
     .logo img {
-        width: 118px;
+        width: 106px;
     }
 
     .hero-card {
-        padding: 24px 18px;
+        padding: 20px 16px;
     }
 
     .hero-title {
@@ -592,21 +696,109 @@
         font-size: 16px;
     }
 
+    .hero-mini-card {
+        padding: 14px 16px;
+    }
+
+    .hero-mini-card strong {
+        font-size: 17px;
+    }
+
+    .hero-mini-card p {
+        font-size: 12.5px;
+    }
+
+    .author-photo {
+        height: clamp(200px, 52vw, 240px);
+    }
+
+    .author-info {
+        padding: 18px;
+        gap: 10px;
+    }
+
     .stat-card {
-        padding: 22px;
+        padding: 18px;
+        min-height: 160px;
+    }
+
+    .process-steps {
+        gap: 12px;
+    }
+
+    .process-step {
+        padding: 16px;
+    }
+
+    .process-step-number {
+        width: 34px;
+        height: 34px;
+        font-size: 11.5px;
+        margin-bottom: 12px;
+    }
+
+    .pricing-card {
+        padding: 20px 16px;
+        gap: 12px;
+    }
+
+    .pricing-card-header {
+        gap: 8px;
+    }
+
+    .pricing-price {
+        font-size: 32px;
+    }
+
+    .pricing-list {
+        gap: 8px;
+    }
+
+    .pricing-list li {
+        font-size: 14.5px;
+    }
+
+    .cta-bottom {
+        padding: 24px 16px;
+        margin-top: 24px;
+    }
+
+    .cta-bottom-title {
+        font-size: 26px;
+        margin-bottom: var(--space-2, 10px);
+    }
+
+    .cta-bottom-text {
+        font-size: 15px;
+        margin-bottom: var(--space-4, 16px);
+    }
+
+    .cta-bottom-actions {
+        gap: 10px;
     }
 
     .faq-question {
-        padding: 20px;
+        padding: 16px;
+        font-size: 16.5px;
+        gap: 14px;
     }
 
     .faq-answer p {
-        padding: 0 20px 20px;
+        padding: 0 16px 16px;
     }
 
     .footer-phone {
         font-size: 22px;
         overflow-wrap: anywhere;
+    }
+
+    .site-footer {
+        padding: 36px 0 40px;
+    }
+
+    .footer-card {
+        padding: 24px 16px;
+        gap: 24px;
     }
 }
 

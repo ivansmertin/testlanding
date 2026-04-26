@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastFocusedMenuTrigger = null;
     let lastCarouselAnnouncement = "";
     let scrollAnimationFrame = 0;
+    let carouselProgressFrame = 0;
 
     const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
     const getScrollBehavior = () => (motionReduced ? "auto" : "smooth");
@@ -490,6 +491,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    const initStickyHeader = () => {
+        if (!header) return;
+
+        const threshold = 20;
+        let scrolled = false;
+        let ticking = false;
+
+        const updateScrolledState = () => {
+            const shouldBeScrolled = window.scrollY > threshold;
+            if (shouldBeScrolled === scrolled) return;
+            scrolled = shouldBeScrolled;
+            header.classList.toggle("is-scrolled", scrolled);
+        };
+
+        const onScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                updateScrolledState();
+                ticking = false;
+            });
+        };
+
+        updateScrolledState();
+        window.addEventListener("scroll", onScroll, { passive: true });
+    };
+
     const initNav = () => {
         if (!navLinks.length) return;
 
@@ -840,22 +868,33 @@ document.addEventListener("DOMContentLoaded", () => {
         syncCarouselButtons();
     };
 
-    const syncCarouselProgress = () => {
+    const writeCarouselProgress = () => {
         if (!carouselTrack || !progressFill) return;
 
-        const total = carouselTrack.scrollWidth;
-        const visible = carouselTrack.clientWidth;
-        const maxScroll = total - visible;
-
-        const widthPercent = total > 0 ? Math.max((visible / total) * 100, 16) : 100;
-        const leftPercent = maxScroll > 0
-            ? ((100 - widthPercent) * carouselTrack.scrollLeft) / maxScroll
+        const maxScroll = carouselTrack.scrollWidth - carouselTrack.clientWidth;
+        const progress = maxScroll > 0
+            ? Math.min(Math.max(carouselTrack.scrollLeft / maxScroll, 0), 1)
             : 0;
 
-        progressFill.style.width = `${widthPercent}%`;
-        progressFill.style.left = `${leftPercent}%`;
+        progressFill.style.setProperty("--progress", progress.toFixed(4));
         syncCarouselButtons();
         announceCarouselPosition();
+    };
+
+    const syncCarouselProgress = () => {
+        if (carouselProgressFrame) {
+            cancelAnimationFrame(carouselProgressFrame);
+            carouselProgressFrame = 0;
+        }
+        writeCarouselProgress();
+    };
+
+    const onCarouselScroll = () => {
+        if (carouselProgressFrame) return;
+        carouselProgressFrame = requestAnimationFrame(() => {
+            carouselProgressFrame = 0;
+            writeCarouselProgress();
+        });
     };
 
     const initCarousel = () => {
@@ -903,9 +942,57 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        carouselTrack.addEventListener("scroll", syncCarouselProgress, { passive: true });
+        carouselTrack.addEventListener("scroll", onCarouselScroll, { passive: true });
         syncCarouselA11y();
         syncCarouselProgress();
+    };
+
+    const initLegalScrollSpy = () => {
+        const tocLinks = Array.from(document.querySelectorAll(".legal-toc-link"));
+        if (!tocLinks.length || !("IntersectionObserver" in window)) return;
+
+        const linkByTarget = new Map();
+        tocLinks.forEach((link) => {
+            const href = link.getAttribute("href") || "";
+            if (!href.startsWith("#") || href.length < 2) return;
+            const target = document.getElementById(href.slice(1));
+            if (target) linkByTarget.set(target, link);
+        });
+
+        if (!linkByTarget.size) return;
+
+        let activeLink = null;
+        const setActive = (link) => {
+            if (link === activeLink) return;
+            activeLink = link;
+            tocLinks.forEach((other) => {
+                other.classList.toggle("is-active", other === link);
+            });
+        };
+
+        const visible = new Map();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    visible.set(entry.target, entry.intersectionRatio);
+                } else {
+                    visible.delete(entry.target);
+                }
+            });
+
+            if (!visible.size) return;
+
+            const best = Array.from(visible.entries())
+                .sort((a, b) => b[1] - a[1])[0];
+            const link = linkByTarget.get(best[0]);
+            if (link) setActive(link);
+        }, {
+            rootMargin: "-20% 0px -60% 0px",
+            threshold: [0, 0.15, 0.5, 1]
+        });
+
+        linkByTarget.forEach((_, target) => observer.observe(target));
     };
 
     const syncOpenFaqHeight = () => {
@@ -1021,6 +1108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     reducedMotionQuery.addEventListener("change", handleReducedMotionChange);
 
     setHeaderOffset();
+    initStickyHeader();
     initCookieBanner();
     initNav();
     initAnchorScroll();
@@ -1028,4 +1116,5 @@ document.addEventListener("DOMContentLoaded", () => {
     initScrollSpy();
     initCarousel();
     initFaq();
+    initLegalScrollSpy();
 });

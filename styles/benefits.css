@@ -150,10 +150,11 @@
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
     height: 100%;
     border-radius: inherit;
     background: linear-gradient(90deg, var(--accent) 0%, var(--accent-bright) 100%);
-    transition:
-        left var(--motion-duration-base) var(--motion-ease),
-        width var(--motion-duration-base) var(--motion-ease);
+    transform-origin: left center;
+    transform: scaleX(var(--progress, 0));
+    will-change: transform;
 }

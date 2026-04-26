@@ -49,6 +49,12 @@
     color: var(--accent);
     margin-bottom: 20px;
     flex-shrink: 0;
+    transition:
+        transform var(--motion-duration-base) var(--motion-ease),
+        background var(--motion-duration-base) var(--motion-ease),
+        border-color var(--motion-duration-base) var(--motion-ease),
+        box-shadow var(--motion-duration-base) var(--motion-ease);
+    will-change: transform;
 }
 
 .process-step--accent .process-step-number {
@@ -79,4 +85,19 @@
 
 .process-step--accent .process-step-desc {
     color: var(--surface-overlay-90);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .process-step:hover .process-step-number {
+        transform: scale(1.08);
+        background: var(--accent-overlay-16);
+        border-color: var(--accent-overlay-28);
+        box-shadow: 0 6px 14px var(--accent-overlay-16);
+    }
+
+    .process-step--accent:hover .process-step-number {
+        background: var(--surface-overlay-28);
+        border-color: var(--surface-overlay-90);
+        box-shadow: 0 6px 14px var(--surface-overlay-18);
+    }
 }

@@ -126,6 +126,10 @@
     font-weight: 800;
     font-size: 13px;
     top: 1px;
+    transform-origin: center;
+    transition:
+        transform var(--motion-duration-base) var(--motion-ease),
+        color var(--motion-duration-base) var(--motion-ease);
 }
 
 .pricing-card--accent .pricing-list li {
@@ -142,4 +146,16 @@
     font-size: 15px;
     color: var(--text-secondary);
     line-height: var(--lh-body);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .pricing-card:hover .pricing-list li::before {
+        transform: scale(1.18) rotate(-6deg);
+        color: var(--accent-hover);
+    }
+
+    .pricing-card--accent:hover .pricing-list li::before {
+        color: var(--surface);
+        transform: scale(1.2) rotate(-6deg);
+    }
 }

@@ -127,6 +127,19 @@
     }
 }
 
+.legal-toc-link.is-active {
+    color: var(--accent);
+    background: var(--surface-alt);
+    font-weight: 700;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .legal-toc-link.is-active:hover {
+        color: var(--accent-hover);
+        background: var(--accent-overlay-10);
+    }
+}
+
 .legal-reading {
     display: grid;
     gap: 22px;
@@ -248,8 +261,25 @@
     }
 
     .legal-toc-nav {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        display: grid;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        padding-bottom: 8px;
+        margin: 0 -4px;
+        padding-inline: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .legal-toc-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .legal-toc-link {
+        flex-shrink: 0;
+        white-space: nowrap;
     }
 
     .legal-reading,
@@ -286,7 +316,7 @@
         font-size: 15px;
     }
 
-    .legal-toc-nav {
-        grid-template-columns: minmax(0, 1fr);
+    .legal-toc {
+        padding: 14px;
     }
 }

@@ -70,7 +70,7 @@
 @media (hover: hover) and (pointer: fine) {
     .footer-link:hover {
         color: var(--surface);
-        transform: translateY(-1px);
+        transform: translateX(4px);
     }
 }
 

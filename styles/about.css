@@ -224,13 +224,17 @@
     transition:
         background var(--motion-duration-base) var(--motion-ease),
         border-color var(--motion-duration-base) var(--motion-ease),
+        color var(--motion-duration-base) var(--motion-ease),
+        box-shadow var(--motion-duration-base) var(--motion-ease),
         transform var(--motion-duration-base) var(--motion-ease);
 }
 
 @media (hover: hover) and (pointer: fine) {
     .tech-badge:hover {
-        background: linear-gradient(180deg, var(--accent-overlay-10) 0%, var(--accent-overlay-16) 100%);
+        background: linear-gradient(180deg, var(--accent-overlay-10) 0%, var(--accent-overlay-18) 100%);
         border-color: var(--accent-overlay-28);
+        color: var(--accent);
+        box-shadow: 0 6px 14px var(--shadow-color-04);
         transform: translateY(-2px);
     }
 }
